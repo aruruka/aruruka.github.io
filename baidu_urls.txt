@@ -1,0 +1,10 @@
+https://shouneng.website/2020/10/26/yarn-architecture/
+https://shouneng.website/2020/10/19/clouderamanager-setup-kerberos-missing-credentials/
+https://shouneng.website/2020/10/15/mapreduce-computation-framework/
+https://shouneng.website/2020/10/06/mapreduce-programming-model/
+https://shouneng.website/2020/09/29/hdfs-architecture-and-explaination-of-design/
+https://shouneng.website/2020/06/09/shi-yong-guan-fang-cloudformation-mo-ban-bu-shu-eks/
+https://shouneng.website/2020/04/08/quick-guide-to-deploying-and-using-traefik-2-0-on-kubernetes/
+https://shouneng.website/2020/03/23/change-rook-ceph-filestore/
+https://shouneng.website/2020/03/23/ceph-performance-testing/
+https://shouneng.website/2020/03/18/about-rook-ceph/

@@ -1,0 +1,1366 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="理解 Zabbix, Cloudera Kubernetes k8s DevOps 少年G ShounenG aruruka">
+    <meta name="description" content="对于Zabbix入门者的一些指导性建议。包括：Zabbix的组件、新增监控时的经验法则、如何定制化监控项目、如何调试监控项目。">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>理解 Zabbix | 少年G的博客</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+    
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">少年G的博客</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">少年G的博客</div>
+        <div class="logo-desc">
+            
+            专注于DevOps
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/aruruka" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/aruruka" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/25.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">理解 Zabbix</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Zabbix/">
+                                <span class="chip bg-color">Zabbix</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/监控/" class="post-category">
+                                监控
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2019-09-09
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2019-09-12
+                </div>
+                
+
+                
+
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>原文：<a href="https://hackernoon.com/understanding-zabbix-f2a83eeb1221" target="_blank" rel="noopener">https://hackernoon.com/understanding-zabbix-f2a83eeb1221</a></p>
+<p>监控所有服务器基础设施。</p>
+<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>在为我们的产品设置基础设施时<a href="http://bit.ly/use-highlights" target="_blank" rel="noopener">http://bit.ly/use-highlights</a>我正在寻找用于服务器基础设施监控的开源工具，而不是藏着一颗炸弹（译者按：不监控大概就是藏着一颗炸弹吧），并且可以随着我们改进（服务架构）帮助我们自定义化。 两个主要的竞争者是Nagios和Zabbix。 我读了几篇比较两者的帖子，但是<a href="https://www.comparitech.com/net-admin/nagios-vs-zabbix/?lphiltid=5bfd07b68e39bb080950ca0b" target="_blank" rel="noopener">https://www.comparitech.com/net-admin/nagios-vs-zabbix/?lphiltid=5bfd07b68e39bb080950ca0b</a>是我最喜欢的文章，因为我觉得它非常客观和详细。 我对Nagios的一个主要优势是你可以使用现有的设置升级到Nagios ** Nagios XI **。 但是对于我们的场景，我们觉得Zabbix绰绰有余。 所以就使用Zabbix吧。</p>
+<p>这不是详细的”HowTo”博客。 但这将是我的学习总结，链接到适用于我的相关安装指南，链接到详细的”TODO”文章和我的经验法则。</p>
+<h1 id="安装前的一些基础知识"><a href="#安装前的一些基础知识" class="headerlink" title="安装前的一些基础知识"></a>安装前的一些基础知识</h1><p>Zabbix有三个主要组件。 Zabbix Server，保存…（译者按：意思为保存数据） Zabbix Agent和Zabbix Web Interface。 Zabbix Server是从您要监视的服务器收集所有相关数据的服务器。 要监视的服务器称为“Agent”。 您可以在没有Zabbix Web部件的情况下监控服务器。 但我建议使用它，因为它可以让体验变得更好。</p>
+<p>如果您只想在安装任何内容之前了解用户界面，请访问<a href="https://zabbix.org/zabbix/index.php" target="_blank" rel="noopener">https://zabbix.org/zabbix/index.php</a>并“以访客身份登录”。 您将没有“配置”和“管理”选项卡，但可以查看“监视”，“清单”和“报告”部分。</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>我将在此处跳过详细信息，因为您可以从互联网上找到“HOWTO”文章。 我们使用的是Ubuntu服务器，<a href="https://twitter.com/tecadmin" target="_blank" rel="noopener">https://twitter.com/tecadmin</a>的以下文章非常方便。</p>
+<ol>
+<li>安装Zabbix Server – <a href="https://tecadmin.net/install-zabbix-on-ubuntu/" target="_blank" rel="noopener">https://tecadmin.net/install-zabbix-on-ubuntu/</a></li>
+<li>安装Zabbix Agent – <a href="https://tecadmin.net/install-zabbix-agent-on-ubuntu-and-debian" target="_blank" rel="noopener">https://tecadmin.net/install-zabbix-agent-on-ubuntu-and-debian</a></li>
+<li>将主机(host)添加到 Zabbix Server中以便监控 – <a href="https://tecadmin.net/add-host-zabbix-server-monitor" target="_blank" rel="noopener">https://tecadmin.net/add-host-zabbix-server-monitor</a></li>
+</ol>
+<p>默认情况下，Zabbix Web Interface使用apache。 如果您不想在其位置使用Nginx，请在您的nginx中添加以下配置（译者按：配置内容为译者补充）。</p>
+<pre><code>server {
+  listen      80 default;
+  root        /data/www/default;
+  index       index.php index.html;
+
+  include     /etc/nginx/conf.d/default-*.conf;
+  include     /data/conf/nginx/conf.d/default-*.conf;
+
+  # PHP backend is not in the default-*.conf file set,
+  # as some vhost might not want to include it.
+  include     /etc/nginx/conf.d/php-location.conf;
+
+  # Import configuration files for status pages for Nginx and PHP-FPM
+  include /etc/nginx/conf.d/stub-status.conf;
+  include /etc/nginx/conf.d/fpm-status.conf;
+
+}
+</code></pre><p>可参考<a href="https://github.com/monitoringartist/dockbix-xxl/blob/e7ddb4d72ce94d7db742704637df2f18fe237119/Dockerfile/dockbix-xxl-4.0/container-files-base/etc/nginx/hosts.d/default.conf#L2" target="_blank" rel="noopener">Dockbix的Nginx配置</a>译者按：译者补充，<a href="[https://github.com/monitoringartist/dockbix-xxl](https://github.com/monitoringartist/dockbix-xxl)">monitoringartist/dockbix-xxl</a>包含了具有启迪意义的代码，代码涉及到Dockerfile的分层思路、supervisor、inotify-util和脚本配合，从容器环境变量可选择性地启动容器的功能等，在代码结构上也层次分明，具有通用性。）</p>
+<h1 id="经验法则"><a href="#经验法则" class="headerlink" title="经验法则"></a>经验法则</h1><p>从主机组，用户组和模板这些方面，考虑您要进行监控的所有操作。</p>
+<h1 id="快速词汇表"><a href="#快速词汇表" class="headerlink" title="快速词汇表"></a>快速词汇表</h1><ul>
+<li><p>Zabbix Server</p>
+<p>这是监控所有内容的主服务器。 如需安装，请点击<a href="https://tecadmin.net/install-zabbix-on-ubuntu/" target="_blank" rel="noopener">此链接</a>。<br>通常，Web Interface也仅安装在此服务器上。 我个人觉得（不太确定）最好将它与需要监控的其他服务器分开。<br>这样，即使实际的服务器群体停机，我们也能够至少监控停机时间以及它们可能已经停机的原因。</p>
+</li>
+<li><p>Zabbix Agent</p>
+<p>这是一个软件，可以帮助将数据从被监控的服务器发送到Zabbix Server。 如果您还要监视Zabbix服务器，也可以在该服务器中安装Zabbix Agent。</p>
+</li>
+<li><p>Zabbix Host</p>
+<p>Host是您需要监控的服务器。 因此，如果您需要监视三个不同的服务器，则在所有这些服务器上安装Zabbix Agent。</p>
+</li>
+<li><p>在Zabbix Server中添加Host</p>
+<p>在各自的服务器中安装Zabbix Server和Agent后，还需要在Zabbix Server中添加主机。</p>
+</li>
+<li><p>Host Groups</p>
+<p>主机组可以作为分类或标记。 我觉得在主机组的使用上想得自由一点比较有益。<br>以下是我创建的一些主机组#LearningPaths，＃staging，＃live，＃database，＃mongodb，＃appserver，＃search。<br>使用模板或“创建”操作时，这些主机组将非常方便。</p>
+</li>
+<li><p>Templates</p>
+<p>将模板视为可应用于各种主机组的监控模板。 根据经验，我总是将模板应用于主机组。<br>如果想要删除主机或仅将模板应用于一个主机，这是我的指导标准，我可以重新设置主机组或添加符合当前条件的新主机组。<br>这为我节省了很多时间。 我在其他标准之前提到模板，因为我认为从模板和组的角度思考一切是非常重要的。</p>
+</li>
+<li><p>Template OS Linux</p>
+<p>默认情况下安装Zabbix完就存在。 这提供了其他监视服务中通常可用的大多数参数，如CPU使用率，CPU负载，内存使用量等。<br>这已经配置了数据指标，对于服务器级别监控来说已经足够了。 我们更改了平均CPU负载的触发器，因为它引发了太多错误警报。<br>我们目前正在配置以下两个（模板）。 如果你有幸安装这两个，请发表评论。 我能够获得所有相关数据，但我无法将其推送到Zabbix服务器（指Zabbix官网·社区）。<br>我认为它与trap设置有关。 我还在搞清楚。</p>
+<ul>
+<li>Zabbix MongoDB Template — <a href="https://github.com/omni-lchen/zabbix-mongodb" target="_blank" rel="noopener">https://github.com/omni-lchen/zabbix-mongodb</a></li>
+<li>Zabbix Elastic Search Templates — <a href="https://github.com/zarplata/zabbix-agent-extension-elasticsearch" target="_blank" rel="noopener">https://github.com/zarplata/zabbix-agent-extension-elasticsearch</a></li>
+</ul>
+</li>
+</ul>
+<h1 id="定制化"><a href="#定制化" class="headerlink" title="定制化"></a>定制化</h1><p>正如我之前提到的，我发现总是在Templates和Host Groups方面进行思考是有用的。<br>因此，如果您计划创建任何新项目/触发器，请确保将它们添加到相关模板中，然后关联到主机组。</p>
+<p>首先为要跟踪的每个数据点创建一个项目。 您可以按照这些步骤<br><a href="https://www.zabbix.com/documentation/3.4/manual/config/items/item" target="_blank" rel="noopener">https://www.zabbix.com/documentation/3.4/manual/config/items/item</a><br>中的步骤操作。</p>
+<p>然后，您可以根据这些项目值创建触发器。 您可以按照<br><a href="https://www.zabbix.com/documentation/3.4/manual/config/triggers/trigger" target="_blank" rel="noopener">https://www.zabbix.com/documentation/3.4/manual/config/triggers/trigger</a><br>中的步骤创建触发器。</p>
+<h1 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h1><p>虽然Web Interface挺好的，但是我觉得对于调试来说，用控制台会更好。</p>
+<h2 id="在监控者服务器上"><a href="#在监控者服务器上" class="headerlink" title="在监控者服务器上"></a>在监控者服务器上</h2><ul>
+<li><p>检查您可以通过10050端口连接上Agent。</p>
+<p><code>telnet &lt;ip-of-your-agent&gt; 10050</code></p>
+</li>
+<li><p>使用zabbix-get</p>
+<pre><code>[root@8a11e51b8ddb nginx]# zabbix_get
+usage:
+  zabbix_get -s host-name-or-IP [-p port-number] [-I IP-address] -k item-key
+  zabbix_get -s host-name-or-IP [-p port-number] [-I IP-address]
+                --tls-connect cert --tls-ca-file CA-file
+                [--tls-crl-file CRL-file] [--tls-agent-cert-issuer cert-issuer]
+                [--tls-agent-cert-subject cert-subject]
+                --tls-cert-file cert-file --tls-key-file key-file -k item-key
+  zabbix_get -s host-name-or-IP [-p port-number] [-I IP-address]
+                --tls-connect psk --tls-psk-identity PSK-identity
+                --tls-psk-file PSK-file -k item-key
+  zabbix_get -h
+  zabbix_get -V
+[root@8a11e51b8ddb nginx]# zabbix_get -s 192.168.79.128 -k agent.ping
+1
+[root@8a11e51b8ddb nginx]# zabbix_get -s 192.168.79.128 -k agent.hostname
+k8s-master-01.local
+[root@8a11e51b8ddb nginx]#
+</code></pre></li>
+</ul>
+<h2 id="在需要被监控的服务器-客户端上"><a href="#在需要被监控的服务器-客户端上" class="headerlink" title="在需要被监控的服务器/客户端上"></a>在需要被监控的服务器/客户端上</h2><p>在基本配置（Passive Agent）中，监控者服务器将询问数据。 因此，如果您的服务器可以与代理进行通信，那就足够了。<br>但如果使用Active Agent模式，那么您需要保证您的Agent可以连接您的监控者服务器并且可以推送数据。（编者按：监控者服务器指Zabbix Server所在的服务器）</p>
+<ul>
+<li><p>检查您可以连接到服务器端的10050端口。</p>
+<p><code>telnet &lt;ip-of-your-server&gt; 10050</code></p>
+</li>
+<li><p>检查是否有安装zabbix-sender，没有的话安装它。</p>
+<p><code>sudo apt-get install zabbix-sender</code></p>
+</li>
+<li><p>当Zabbix sender安装好后您可以运行以下命令</p>
+<p><code>zabbix_sender -vv -z [serverIp] -p 10051 -s [clientName] -k traptest -o &quot;Test value&quot;</code></p>
+</li>
+</ul>
+<p>在Active Agent配置中请注意，推送到服务器的所有数据都应该是Item类型trapper。<br>因此，在上面的示例中，您应该在服务器上使用密钥traptest创建了一个trapper类型的项目。<br>还要确保在服务器上创建项目时，您发送的数据是指定的类型。</p>
+<h1 id="报告"><a href="#报告" class="headerlink" title="报告"></a>报告</h1><p>仪表板是可自定义的。 所以你可以改变它以列出的所有相关问题。 我个人喜欢的另一个功能是屏幕。 我们添加了服务器的所有心跳图，我们可以像这样跟踪它们的数据。</p>
+<p><img src="Zabbix_screens.png" alt="Zabbix screens"></p>
+<h1 id="通知"><a href="#通知" class="headerlink" title="通知"></a>通知</h1><p>我认为Zabbix中的通知很棒，因为它是高度可配置的。<br>我们使用结合sendgrid使用Zabbix。Zabbix UI中的默认通知对我们来说效果不佳。<br>所以我们使用了脚本路由。我们使用了库<a href="https://github.com/mkgin/sendgrid_zabbix_alert" target="_blank" rel="noopener">https://github.com/mkgin/sendgrid_zabbix_alert</a>。<br>Zabbix通知的调试可能有点刺激。 我刚刚创建了<a href="https://medium.com/@gokulnk/draft-zabbix-notifications-set-up-and-debugging-1d53b6d68371" target="_blank" rel="noopener">一个草稿</a>，当我有时间的时候会更新。</p>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://shouneng.website" rel="external nofollow noreferrer">少年G</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://shouneng.website/2019/09/09/li-jie-zabbix/">https://shouneng.website/2019/09/09/li-jie-zabbix/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="https://shouneng.website" target="_blank">少年G</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/Zabbix/">
+                                    <span class="chip bg-color">Zabbix</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">Buy me a coffe?</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: 'abe1f078df4c41c02917',
+        clientSecret: '5cca9a3110ba22e0f959ea3aaf7ff2eeebd4e3e3',
+        repo: 'aruruka.github.io',
+        owner: 'aruruka',
+        admin: "aruruka",
+        id: '2019-09-09T10-29-37',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2019/09/11/zabbix-zi-dong-fa-xian-ji-yu-aws-python-api-boto-3-de-kai-fa-zhi-nan/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="开发Zabbix的自定义监控项和自动发现AWS服务实例">
+                        
+                        <span class="card-title">开发Zabbix的自定义监控项和自动发现AWS服务实例</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            在Zabbix中添加自定义监控项，以及如何配置自动发现的一系列操作。把公有云服务监控整合到Zabbix中。
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2019-09-11
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/监控/" class="post-category">
+                                    监控
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/AWS/">
+                        <span class="chip bg-color">AWS</span>
+                    </a>
+                    
+                    <a href="/tags/Zabbix/">
+                        <span class="chip bg-color">Zabbix</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/08/31/yi-kubernetes-ji-qun-zai-bei-disaster-recovery-de-zhong-ji-zhi-nan/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/28.jpg" class="responsive-img" alt="[译]Kubernetes集群灾备(disaster recovery)的终极指南">
+                        
+                        <span class="card-title">[译]Kubernetes集群灾备(disaster recovery)的终极指南</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            使用Kubernetes时为什么要备份？需要备份什么？如何备份？
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-08-31
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/DevOps/" class="post-category">
+                                    DevOps
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/k8s/">
+                        <span class="chip bg-color">k8s</span>
+                    </a>
+                    
+                    <a href="/tags/etcd/">
+                        <span class="chip bg-color">etcd</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 少年G的博客<br />'
+            + '文章作者: 少年G<br />'
+            + '文章链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="883064937"
+                   fixed='true'
+                   autoplay='false'
+                   theme:='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+
+    
+    <div class="container row center-align" style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2019</span>
+            <a href="https://shouneng.website" target="_blank">少年G</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2019";
+                    var startMonth = "08";
+                    var startDate = "22";
+                    var startHour = "0";
+                    var startMinute = "0";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/aruruka" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:keraymondyan69@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="https://www.facebook.com/aruruka" class="tooltipped" target="_blank" data-tooltip="关注我的Facebook: https://www.facebook.com/aruruka" data-position="top" data-delay="50">
+        <i class="fab fa-facebook-f"></i>
+    </a>
+
+
+
+    <a href="https://twitter.com/aruruka" class="tooltipped" target="_blank" data-tooltip="关注我的Twitter: https://twitter.com/aruruka" data-position="top" data-delay="50">
+        <i class="fab fa-twitter"></i>
+    </a>
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=273456339" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 273456339" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+    <a href="https://weibo.com/keraymondyan69" class="tooltipped" target="_blank" data-tooltip="关注我的微博: https://weibo.com/keraymondyan69" data-position="top" data-delay="50">
+        <i class="fab fa-weibo"></i>
+    </a>
+
+
+
+    <a href="https://www.zhihu.com/people/shouneng" class="tooltipped" target="_blank" data-tooltip="关注我的知乎: https://www.zhihu.com/people/shouneng" data-position="top" data-delay="50">
+        <i class="fab fa-zhihu1">知</i>
+    </a>
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-27145379-5"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+    gtag('config', 'UA-27145379-5');
+</script>
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

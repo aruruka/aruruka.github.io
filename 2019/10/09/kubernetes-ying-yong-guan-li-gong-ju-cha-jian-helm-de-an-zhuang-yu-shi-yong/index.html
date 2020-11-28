@@ -1,0 +1,1587 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="kubernetes应用管理工具插件helm的安装与使用, Cloudera Kubernetes k8s DevOps 少年G ShounenG aruruka">
+    <meta name="description" content="Helm是一个用来管理Kubernetes中的服务的工具，在使用感上，有点像Linux的包 管理工具，但是除了可以配置服务使用什么容器镜像外，还可以配置服务的模板、 对服务进行版本控制。Helm中有4个主要部分：Chart、Release、Repository、 Config。
+">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>kubernetes应用管理工具插件helm的安装与使用 | 少年G的博客</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+    
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">少年G的博客</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">少年G的博客</div>
+        <div class="logo-desc">
+            
+            专注于DevOps
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/aruruka" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/aruruka" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/22.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">kubernetes应用管理工具插件helm的安装与使用</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/k8s/">
+                                <span class="chip bg-color">k8s</span>
+                            </a>
+                        
+                            <a href="/tags/helm/">
+                                <span class="chip bg-color">helm</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/DevOps/" class="post-category">
+                                DevOps
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2019-10-09
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2019-10-09
+                </div>
+                
+
+                
+
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="helm组件结构"><a href="#helm组件结构" class="headerlink" title="helm组件结构"></a>helm组件结构</h1><hr>
+<p>Helm 是 C/S 架构，主要分为客户端 <code>helm</code> 和服务端 <code>Tiller</code>。安装时可直接在 <a href="https://github.com/helm/helm/releases/tag/v2.14.0" target="_blank" rel="noopener">Helm 仓库的 Release 页面</a> 下载所需二进制文件或者源码包。<br>由于存储在GCS中，注意需要科学上网。<br>下载二进制可执行程序的文件包后解压文件，这里以 Linux amd64 为例。</p>
+<pre><code>[root@master helm]# ls -lh
+total 26M
+-rw-r--r--. 1 root root 26M May 29 11:41 helm-v2.14.0-linux-amd64.tar.gz
+drwxr-xr-x. 2 root root  64 May 15 11:44 linux-amd64
+[root@master helm]# tree linux-amd64/
+linux-amd64/
+├── helm
+├── LICENSE
+├── README.md
+└── tiller
+
+0 directories, 4 files
+[root@master helm]#</code></pre><p>解压完成后，可看到其中包含 <code>helm</code> 和 <code>tiller</code> 二进制文件。</p>
+<h2 id="客户端-helm"><a href="#客户端-helm" class="headerlink" title="客户端 helm"></a>客户端 helm</h2><hr>
+<p><code>helm</code> 是个二进制文件，直接将它移动至 <code>/usr/bin</code> 目录下即可。</p>
+<pre><code>[root@master helm]# cp linux-amd64/helm /usr/bin/
+[root@master helm]# which helm
+/usr/bin/helm</code></pre><p>这时候便可直接通过 helm 命令使用了。比如，我们验证当前使用的版本。</p>
+<pre><code>[root@master helm]# helm version
+Client: &amp;version.Version{SemVer:&quot;v2.14.0&quot;, GitCommit:&quot;05811b84a3f93603dd6c2fcfe57944dfa7ab7fd0&quot;, GitTreeState:&quot;clean&quot;}
+Error: could not find tiller
+[root@master helm]#
+</code></pre><p>这里解释一下，为什么helm工具直接就可以访问k8s的apiserver了呢？<br>其实helm是先找当前主机上的kubectl的配置文件(环境变量 <code>$KUBECONFIG</code> 或者 <code>~/.kube/config</code> 中的内容)，通过解析这个来获得apiserver的地址、以及用来访问的证书，以此来访问apiserver。</p>
+<h2 id="服务端-Tiller"><a href="#服务端-Tiller" class="headerlink" title="服务端 Tiller"></a>服务端 Tiller</h2><hr>
+<p>以下讨论中，前提都是 环境变量<code>$KUBECONFIG</code>或文件<code>$HOME/.kube/config</code> 已正确配置，并且 <code>kebectl</code> 有集群管理员级别操作集群的权限。</p>
+<h3 id="本地安装"><a href="#本地安装" class="headerlink" title="本地安装"></a>本地安装</h3><p>刚才我们解压的文件中，还有一个二进制文件 <code>tiller</code> 。我们可以直接执行它，用于在本地启动服务。</p>
+<pre><code>[root@master linux-amd64]# ./tiller
+[main] 2019/05/29 13:27:15 Starting Tiller v2.14.0 (tls=false)
+[main] 2019/05/29 13:27:15 GRPC listening on :44134
+[main] 2019/05/29 13:27:15 Probes listening on :44135
+[main] 2019/05/29 13:27:15 Storage driver is ConfigMap
+[main] 2019/05/29 13:27:15 Max history per release is 0
+</code></pre><p>直接执行时，默认会监听 <code>44134</code> 和 <code>44135</code> 端口，<code>44134</code> 端口用于和 <code>helm</code> 进行通信，而 <code>44135</code> 主要是用于做探活的，在部署至 <code>K8S</code> 时使用。<br>当我们使用客户端连接时，只需设置 <code>HELM_HOST</code> 环境变量即可。</p>
+<pre><code>[root@master ~]# export HELM_HOST=localhost:44134
+You have new mail in /var/spool/mail/root
+[root@master ~]# helm version
+Client: &amp;version.Version{SemVer:&quot;v2.14.0&quot;, GitCommit:&quot;05811b84a3f93603dd6c2fcfe57944dfa7ab7fd0&quot;, GitTreeState:&quot;clean&quot;}
+Server: &amp;version.Version{SemVer:&quot;v2.14.0&quot;, GitCommit:&quot;05811b84a3f93603dd6c2fcfe57944dfa7ab7fd0&quot;, GitTreeState:&quot;clean&quot;}
+[root@master ~]#
+</code></pre><h3 id="默认安装"><a href="#默认安装" class="headerlink" title="默认安装"></a>默认安装</h3><p>官方提供了一种一键式安装的方式。那便是 <code>helm init</code> 执行这条命令后，会同时在 K8S 中部署服务端 <code>Tiller</code> 和初始化 <code>helm</code> 的默认目录 <code>$HELM_HOME</code> 默认值为 <code>$HOME/.helm</code>。</p>
+<p>这种方式下会默认使用官方镜像 <code>k8s.gcr.io/kubernetes-helm/tiller</code> 网络原因可能会导致安装失败。所以我从阿里云的docker镜像仓库上pull下来后重新打了tag。</p>
+<p>如果不用这种默认镜像名，也可以在helm init时指定镜像名。<br><code>helm init --tiller-image IMAGE_REPOSITORY/tiller:v2.14.0</code></p>
+<pre><code>#!/usr/bin/env bash
+
+images=(
+    tiller:v2.14.0
+)
+
+for imageName in ${images[@]} ; do
+    docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/$imageName
+    docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/$imageName k8s.gcr.io/$imageName
+    docker rmi registry.cn-hangzhou.aliyuncs.com/google_containers/$imageName
+done
+</code></pre><p>然后执行helm自动安装命令。</p>
+<pre><code>[root@master linux-amd64]# helm init
+Creating /root/.helm
+Creating /root/.helm/repository
+Creating /root/.helm/repository/cache
+Creating /root/.helm/repository/local
+Creating /root/.helm/plugins
+Creating /root/.helm/starters
+Creating /root/.helm/cache/archive
+Creating /root/.helm/repository/repositories.yaml
+Adding stable repo with URL: https://kubernetes-charts.storage.googleapis.com
+Adding local repo with URL: http://127.0.0.1:8879/charts
+$HELM_HOME has been configured at /root/.helm.
+
+Tiller (the Helm server-side component) has been installed into your Kubernetes Cluster.
+
+Please note: by default, Tiller is deployed with an insecure &#39;allow unauthenticated users&#39; policy.
+To prevent this, run `helm init` with the --tiller-tls-verify flag.
+For more information on securing your installation see: https://docs.helm.sh/using_helm/#securing-your-helm-installation
+You have new mail in /var/spool/mail/root
+[root@master linux-amd64]#
+</code></pre><p>再次执行 helm version 测试服务端 tiller 是否成功安装。</p>
+<pre><code>[root@master linux-amd64]# helm version
+Client: &amp;version.Version{SemVer:&quot;v2.14.0&quot;, GitCommit:&quot;05811b84a3f93603dd6c2fcfe57944dfa7ab7fd0&quot;, GitTreeState:&quot;clean&quot;}
+Error: could not find a ready tiller pod
+You have new mail in /var/spool/mail/root
+[root@master linux-amd64]#
+</code></pre><p>发现 tiller 并没有成功部署。<br>于是调查了一下 deployment 的状态，发现 image 的名称和我刚才打的tag不一致……</p>
+<pre><code>[root@master linux-amd64]# kubectl get deploy -o wide --all-namespaces | sed -n &#39;1p;/tiller/Ip&#39;
+NAMESPACE     NAME                      READY   UP-TO-DATE   AVAILABLE   AGE     CONTAINERS                IMAGES                                  SELECTOR
+kube-system   tiller-deploy             0/1     1            0           32m     tiller                    gcr.io/kubernetes-helm/tiller:v2.14.0   app=helm,name=tiller
+[root@master linux-amd64]#
+</code></pre><p>重新打一下tag。</p>
+<pre><code>[root@master linux-amd64]# docker images | sed -n &#39;1p;/tiller/Ip&#39;
+REPOSITORY                           TAG                 IMAGE ID            CREATED             SIZE
+k8s.gcr.io/tiller                    v2.14.0             a982228e2db1        2 weeks ago         94.2MB
+[root@master linux-amd64]# docker tag k8s.gcr.io/tiller:v2.14.0 gcr.io/kubernetes-helm/tiller:v2.14.0 &amp;&amp; \
+&gt; docker rmi k8s.gcr.io/tiller:v2.14.0
+Untagged: k8s.gcr.io/tiller:v2.14.0
+[root@master linux-amd64]# docker images | sed -n &#39;1p;/tiller/Ip&#39;
+REPOSITORY                           TAG                 IMAGE ID            CREATED             SIZE
+gcr.io/kubernetes-helm/tiller        v2.14.0             a982228e2db1        2 weeks ago         94.2MB
+[root@master linux-amd64]#
+</code></pre><p>由于我的环境是一个master加一个sysnode，我想在sysnode上运行集群相关的addons，所以将 <code>tiller</code> 的镜像导出出来，传到sysnode上导入。</p>
+<dl><dt>sysnode</dt><dd>sysnode这个role的名字是通过给node打一个<code>topology key</code>，<code>node-role.kubernetes.io/sysnode=sysnode</code>，这样实现的。</dd></dl><pre><code>[root@master linux-amd64]# kubectl get no
+NAME      STATUS   ROLES     AGE     VERSION
+master    Ready    master    6d10h   v1.14.0
+sysnode   Ready    sysnode   6d9h    v1.14.0
+[root@master linux-amd64]# kubectl get no --show-labels | sed -n &#39;1p;/sysnode/Ip&#39;
+NAME      STATUS   ROLES     AGE     VERSION   LABELS
+sysnode   Ready    sysnode   6d9h    v1.14.0   beta.kubernetes.io/arch=amd64,beta.kubernetes.io/os=linux,kubernetes.io/arch=amd64,kubernetes.io/hostname=sysnode,kubernetes.io/os=linux,node-role.kubernetes.io/sysnode=sysnode
+[root@master linux-amd64]#
+</code></pre><p>在sysnode上导入镜像后tiller成功部署了。<br>helm 客户端也成功连接上 tiller了。</p>
+<pre><code>[root@master linux-amd64]# kubectl get deploy -o wide -n kube-system | sed -n &#39;1p;/tiller/Ip&#39;
+NAME                      READY   UP-TO-DATE   AVAILABLE   AGE     CONTAINERS                IMAGES                                  SELECTOR
+tiller-deploy             1/1     1            1           61m     tiller                    gcr.io/kubernetes-helm/tiller:v2.14.0   app=helm,name=tiller
+[root@master linux-amd64]# helm version
+Client: &amp;version.Version{SemVer:&quot;v2.14.0&quot;, GitCommit:&quot;05811b84a3f93603dd6c2fcfe57944dfa7ab7fd0&quot;, GitTreeState:&quot;clean&quot;}
+Server: &amp;version.Version{SemVer:&quot;v2.14.0&quot;, GitCommit:&quot;05811b84a3f93603dd6c2fcfe57944dfa7ab7fd0&quot;, GitTreeState:&quot;clean&quot;}
+You have new mail in /var/spool/mail/root
+[root@master linux-amd64]#
+</code></pre><h3 id="手动安装"><a href="#手动安装" class="headerlink" title="手动安装"></a>手动安装</h3><p>通过上面的描述，可能你已经发现，安装服务端，其实也就是一次普通的部署，我们可以通过以下方式来自行通过 <code>kubectl</code> 完成部署。</p>
+<pre><code>[root@master linux-amd64]# helm init --dry-run --debug # 篇幅原因，以下内容进行了省略
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: helm
+    name: tiller
+  name: tiller-deploy
+  namespace: kube-system
+spec:
+  replicas: 1
+  strategy: {}
+  ...
+status: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: helm
+    name: tiller
+  name: tiller-deploy
+  namespace: kube-system
+spec:
+  ports:
+  - name: tiller
+    port: 44134
+    targetPort: tiller
+  selector:
+    app: helm
+    name: tiller
+  type: ClusterIP
+status:
+  loadBalancer: {}
+
+...
+[root@master linux-amd64]#
+</code></pre><p>将输出内容保存至文件中，自行修改后，通过 <code>kubectl</code> 进行部署即可。建议在修改过程中，尽量不要去更改标签及选择器。</p>
+<h3 id="修改默认的stable-repository"><a href="#修改默认的stable-repository" class="headerlink" title="修改默认的stable repository"></a>修改默认的stable repository</h3><p>由于国内网络环境，我们可以在helm init的时候指定一个stable repo url，而不用默认的Google的repo。<br><code>helm init --stable-repo-url https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts ... # 这里是使用的阿里的repo</code><br>如果已经配置了默认的stable repo,想要修改，可以参照<a href="https://helm.sh/docs/helm/#helm-repo" target="_blank" rel="noopener">官方文档</a>的helm repo命令。</p>
+<h3 id="关于helm的安全性问题"><a href="#关于helm的安全性问题" class="headerlink" title="关于helm的安全性问题"></a>关于helm的安全性问题</h3><h4 id="如何安全地安装helm"><a href="#如何安全地安装helm" class="headerlink" title="如何安全地安装helm"></a>如何安全地安装helm</h4><p>我们应该注意到，现在helm客户端和tiller服务端都已经安装好，并且helm客户端是通过当前节点上kubectl的配置文件中设置的权限来执行对apiserver的操作的，这在专用的集群下，没有问题，如果你和其他用户共享这个集群，并且不论是不是专用的集群，如果是生产环境下使用tiller，强烈建议遵照 <a href="https://helm.sh/docs/using_helm/#securing-your-helm-installation" target="_blank" rel="noopener">helm 官方secure指引</a>，配置必须的安全选项。<br>大致上来说，和tiller默认的安装(部署)方式有以下区别:</p>
+<ul>
+<li>release的数据并不会以configmap的形式存放于集群中，而是以secret的形式存放。</li>
+<li>tiller的api服务启用tls认证。</li>
+<li>给tiller服务分配一个有合适权限的serviceAccount。</li>
+</ul>
+<h4 id="关于为什么要这么做，以及由此可以拓展出在集群内部署拥有操作apiserver的应用时的安全性考虑"><a href="#关于为什么要这么做，以及由此可以拓展出在集群内部署拥有操作apiserver的应用时的安全性考虑" class="headerlink" title="关于为什么要这么做，以及由此可以拓展出在集群内部署拥有操作apiserver的应用时的安全性考虑"></a>关于为什么要这么做，以及由此可以拓展出在集群内部署拥有操作apiserver的应用时的安全性考虑</h4><ul>
+<li>在实际生产环境应用中，往往需要配置一个客户端(kubectl或某种编程语言的k8s client)控制多个k8s集群的情况，如果有高手通过某些途径获得了其中一个k8s集群的地址，就能访问到没有做安全限制的tiller的api，从而达到绕过k8s本身的rbac权限控制的情况。</li>
+<li>假如业务应用运行在k8s上，此应用又被黑客控制了，就可以通过这个应用获得访问apiserver的权限，进而操纵没有认证控制的tiller。</li>
+</ul>
+<h2 id="RBAC-使用"><a href="#RBAC-使用" class="headerlink" title="RBAC 使用"></a>RBAC 使用</h2><hr>
+<p>上面的内容中，均未提及到权限控制相关的内容，但是在生产环境中使用，我们一般都是会进行权限控制的。<br>这里我们创建一个 <code>ServiceAccount</code> 命名为 <code>tiller</code>，为了简单，我们直接将它与 <code>cluster-admin</code> 进行绑定。</p>
+<pre class="line-numbers language-yaml"><code class="language-yaml"><span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> ServiceAccount
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> tiller
+  <span class="token key atrule">namespace</span><span class="token punctuation">:</span> kube<span class="token punctuation">-</span>system
+<span class="token punctuation">---</span>
+<span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> rbac.authorization.k8s.io/v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> ClusterRoleBinding
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> tiller
+<span class="token key atrule">roleRef</span><span class="token punctuation">:</span>
+  <span class="token key atrule">apiGroup</span><span class="token punctuation">:</span> rbac.authorization.k8s.io
+  <span class="token key atrule">kind</span><span class="token punctuation">:</span> ClusterRole
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> cluster<span class="token punctuation">-</span>admin
+<span class="token key atrule">subjects</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">kind</span><span class="token punctuation">:</span> ServiceAccount
+    <span class="token key atrule">name</span><span class="token punctuation">:</span> tiller
+    <span class="token key atrule">namespace</span><span class="token punctuation">:</span> kube<span class="token punctuation">-</span>system
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>将此内容保存为 <code>tiller-rbac.yaml</code>，开始进行部署操作。</p>
+<pre><code>[root@master helm]# kubectl apply -f tiller-rbac.yaml
+serviceaccount/tiller created
+clusterrolebinding.rbac.authorization.k8s.io/tiller created</code></pre><p>更新一下tiller的设置(此处为在deployment中设置serviceaccount)。</p>
+<pre><code>[root@master helm]# helm init --service-account tiller --history-max 200 --upgrade
+$HELM_HOME has been configured at /root/.helm.
+
+Tiller (the Helm server-side component) has been upgraded to the current version.
+You have new mail in /var/spool/mail/root
+[root@master helm]# kubectl get deploy tiller-deploy -o yaml -n kube-system | grep -i serviceaccount
+      automountServiceAccountToken: true
+      serviceAccount: tiller
+      serviceAccountName: tiller
+You have new mail in /var/spool/mail/root
+[root@master helm]#
+</code></pre><p>以此方式完成部署。</p>
+<h1 id="用helm部署应用"><a href="#用helm部署应用" class="headerlink" title="用helm部署应用"></a>用helm部署应用</h1><hr>
+<h2 id="helm-概念"><a href="#helm-概念" class="headerlink" title="helm 概念"></a>helm 概念</h2><hr>
+<h3 id="Chart"><a href="#Chart" class="headerlink" title="Chart"></a>Chart</h3><p><code>chart</code> 就是 Helm 所管理的包，类似于 <code>Yum</code> 所管理的 <code>rpm</code> 包或者是 <code>Homebrew</code> 管理的 <code>Formulae</code>。它包含着一个应用要部署至 K8S 上所必须的所有资源。</p>
+<h3 id="Release"><a href="#Release" class="headerlink" title="Release"></a>Release</h3><p><code>release</code> 就是 <code>chart</code> 在 K8S 上部署后的实例。<code>chart</code> 的每次部署将产生一次 <code>Release</code>。这和上面类比的包管理器就有所不同了，多数的系统级包管理器所安装的包只会在系统中存在一份。我们可以以 <code>Pip</code> 在虚拟环境下单得包安装，或者 <code>Npm</code> 的local install来进行类比。</p>
+<h3 id="Repository"><a href="#Repository" class="headerlink" title="Repository"></a>Repository</h3><p><code>repository</code> 就是字面意思，存储 <code>chart</code> 的仓库。还记得我们上面执行 <code>helm init</code> 时的输出吗？默认情况下，初始化 Helm 的时候，会添加两个仓库，一个是 stable 仓库kubernetes-charts.storage.googleapis.com，另一个则是 <code>local</code> 仓库，地址是<a href="http://127.0.0.1:8879/charts。" target="_blank" rel="noopener">http://127.0.0.1:8879/charts。</a></p>
+<h3 id="Config"><a href="#Config" class="headerlink" title="Config"></a>Config</h3><p>前面提到了 <code>chart</code> 是应用程序所必须的资源，当然我们实际部署的时候，可能就需要有些自定义的配置了。<code>Config</code> 便是用于完成此项功能的，在部署的时候，会将 <code>config</code> 与 <code>chart</code> 进行合并，共同构成我们将部署的应用。</p>
+<h2 id="chart-结构"><a href="#chart-结构" class="headerlink" title="chart 结构"></a>chart 结构</h2><hr>
+<p>在项目目录下，通过以下命令创建一个 <code>chart</code>。</p>
+<pre><code>[root@master helm]# pwd
+/root/helm
+[root@master helm]# helm create saythx
+Creating saythx
+[root@master helm]# tree -a saythx
+saythx
+├── charts
+├── Chart.yaml
+├── .helmignore
+├── templates
+│   ├── deployment.yaml
+│   ├── _helpers.tpl
+│   ├── ingress.yaml
+│   ├── NOTES.txt
+│   ├── service.yaml
+│   └── tests
+│       └── test-connection.yaml
+└── values.yaml
+
+3 directories, 9 files
+[root@master helm]#
+</code></pre><p>先来看一下默认创建的 <code>chart</code> 中包含了什么文件和目录，对其进行解释。</p>
+<h3 id="Chart-yaml"><a href="#Chart-yaml" class="headerlink" title="Chart.yaml"></a>Chart.yaml</h3><pre><code>[root@master helm]# cat saythx/Chart.yaml
+apiVersion: v1
+appVersion: &quot;1.0&quot;
+description: A Helm chart for Kubernetes
+name: saythx
+version: 0.1.0
+You have new mail in /var/spool/mail/root
+</code></pre><p>这个文件是每个 <code>chart</code> 必不可少的一个文件，其中包含着几个重要的属性，如:</p>
+<ul>
+<li><code>apiVersion</code>: 目前版本都为<code>v1</code>。</li>
+<li><code>appVersion</code>: 这是应用的版本号，注意需要与 <code>apiVersion</code>，<code>version</code>等字段区分。</li>
+<li><code>name</code>: 通常要求 <code>chart</code> 的名字必须和它所在的目录保持一致，且此字段必须。</li>
+<li><code>version</code>: 表明当前 <code>chart</code> 的版本号，会直接影响 <code>Release</code> 的记录，且此字段必须。</li>
+<li><code>description</code>: 描述。</li>
+</ul>
+<h3 id="charts"><a href="#charts" class="headerlink" title="charts"></a>charts</h3><p><code>charts</code> 文件夹是用于存放依赖的 <code>chart</code> 的。当有依赖需要管理时，可添加 <code>requirements.yaml</code> 文件，可用于管理项目内或外部的依赖。</p>
+<h3 id="helmignore"><a href="#helmignore" class="headerlink" title=".helmignore"></a>.helmignore</h3><p><code>.helmignore</code> 类似于 <code>.gitignore</code> 和 <code>.dockerignore</code> 之类的，用于忽略一些不想包含在 <code>chart</code> 内的文件。</p>
+<h3 id="templates"><a href="#templates" class="headerlink" title="templates"></a>templates</h3><p><code>templates</code> 文件夹内存放着 <code>chart</code> 所使用的模板文件，也是 <code>chart</code> 的实际执行内容。在使用 <code>chart</code> 进行安装的时候，会将下面介绍的 <code>values.yaml</code> 中的配置项与 <code>templates</code> 中的模板进行组装，生产最终要执行的配置文件。</p>
+<p><code>templates</code> 中，推荐命名应该清晰，如 <code>xx-deployment.yaml</code>，中间使用 <code>-</code> 进行分割，避免使用驼峰式命名。</p>
+<p><code>NOTES.txt</code> 文件在 <code>helm install</code> 完成后，会进行回显，可用于解释说明如何访问服务等。</p>
+<h3 id="values-yaml"><a href="#values-yaml" class="headerlink" title="values.yaml"></a>values.yaml</h3><p><code>values.yaml</code> 存放着项目的一些可配置项，如镜像的名称或者 tag 之类的。作用就是用于和模板进行组装。</p>
+<h2 id="编写-chart"><a href="#编写-chart" class="headerlink" title="编写 chart"></a>编写 chart</h2><hr>
+<p>了解完结构之后，我们来实际编写chart。所有完整代码可在<a href="https://github.com/aruruka/saythx" target="_blank" rel="noopener">SayThx项目</a>获取。</p>
+<pre class="line-numbers language-yaml"><code class="language-yaml"><span class="token comment" spellcheck="true"># Chart.yaml</span>
+<span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
+<span class="token key atrule">appVersion</span><span class="token punctuation">:</span> <span class="token string">"1.0"</span>
+<span class="token key atrule">description</span><span class="token punctuation">:</span> A Helm chart for SayThx.
+<span class="token key atrule">name</span><span class="token punctuation">:</span> saythx
+<span class="token key atrule">version</span><span class="token punctuation">:</span> 0.1.0
+<span class="token key atrule">maintainers</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Jintao Zhang<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>可添加 <code>maintainers</code> 字段，表示维护者。</p>
+<pre class="line-numbers language-yaml"><code class="language-yaml"><span class="token comment" spellcheck="true"># values.yaml</span>
+
+<span class="token comment" spellcheck="true"># backend is the values for backend</span>
+<span class="token key atrule">backend</span><span class="token punctuation">:</span>
+  <span class="token key atrule">image</span><span class="token punctuation">:</span> taobeier/saythx<span class="token punctuation">-</span>be
+  <span class="token key atrule">tag</span><span class="token punctuation">:</span> <span class="token string">"1.0"</span>
+  <span class="token key atrule">pullPolicy</span><span class="token punctuation">:</span> IfNotPresent
+  <span class="token key atrule">replicas</span><span class="token punctuation">:</span> <span class="token number">1</span>
+
+<span class="token comment" spellcheck="true"># namespace is the values for deploy namespace</span>
+<span class="token key atrule">namespace</span><span class="token punctuation">:</span> work
+
+<span class="token comment" spellcheck="true"># service.type is the values for service type</span>
+<span class="token key atrule">service</span><span class="token punctuation">:</span>
+  <span class="token key atrule">type</span><span class="token punctuation">:</span> NodePort
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>values.yaml</code> 文件中定义了我们预期哪些东西是可配置的，比如 <code>namespace</code> 以及镜像名称 tag 等。这里只是贴出了部分内容，仅做说明使用，完整内容可查看我们的<a href="https://github.com/aruruka/saythx/blob/master/saythx/values.yaml" target="_blank" rel="noopener">示例项目</a> 。</p>
+<p>写 <code>values.yaml</code> 文件的时候，由于是使用 <code>YAML</code> 格式的配置，所以它非常的灵活，即可以使用如上面例子中的 <code>backend</code> 那种字典类型的， 也可以写成简单的 k-v 形式。但通常来讲，应该尽可能的将它写的清晰明确。并且容易被替换。</p>
+<pre class="line-numbers language-yaml"><code class="language-yaml"><span class="token comment" spellcheck="true"># templates/backend-service.yaml </span>
+
+<span class="token key atrule">apiVersion</span><span class="token punctuation">:</span> v1
+<span class="token key atrule">kind</span><span class="token punctuation">:</span> Service
+<span class="token key atrule">metadata</span><span class="token punctuation">:</span>
+  <span class="token key atrule">labels</span><span class="token punctuation">:</span>
+    <span class="token key atrule">app</span><span class="token punctuation">:</span> backend
+  <span class="token key atrule">name</span><span class="token punctuation">:</span> saythx<span class="token punctuation">-</span>backend
+  <span class="token key atrule">namespace</span><span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token punctuation">{</span> .Values.namespace <span class="token punctuation">}</span><span class="token punctuation">}</span>
+<span class="token key atrule">spec</span><span class="token punctuation">:</span>
+  <span class="token key atrule">ports</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">protocol</span><span class="token punctuation">:</span> TCP
+    <span class="token key atrule">port</span><span class="token punctuation">:</span> <span class="token number">8080</span>
+    <span class="token key atrule">targetPort</span><span class="token punctuation">:</span> <span class="token number">8080</span>
+  <span class="token key atrule">selector</span><span class="token punctuation">:</span>
+    <span class="token key atrule">app</span><span class="token punctuation">:</span> backend
+  <span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token punctuation">{</span> .Values.service.type <span class="token punctuation">}</span><span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>将部署文件模板化，与配置项进行组装。</p>
+<pre class="line-numbers language-go"><code class="language-go"><span class="token number">1</span><span class="token punctuation">.</span> Get the application URL by running these commands<span class="token punctuation">:</span>
+<span class="token punctuation">{</span><span class="token punctuation">{</span><span class="token operator">-</span> <span class="token keyword">if</span> contains <span class="token string">"NodePort"</span> <span class="token punctuation">.</span>Values<span class="token punctuation">.</span>service<span class="token punctuation">.</span><span class="token keyword">type</span> <span class="token punctuation">}</span><span class="token punctuation">}</span>
+  export NODE_PORT<span class="token operator">=</span>$<span class="token punctuation">(</span>kubectl get <span class="token operator">--</span>namespace <span class="token punctuation">{</span><span class="token punctuation">{</span> <span class="token punctuation">.</span>Values<span class="token punctuation">.</span>namespace <span class="token punctuation">}</span><span class="token punctuation">}</span> <span class="token operator">-</span>o jsonpath<span class="token operator">=</span><span class="token string">"{.spec.ports[0].nodePort}"</span> services saythx<span class="token operator">-</span>frontend<span class="token punctuation">)</span>
+  export NODE_IP<span class="token operator">=</span>$<span class="token punctuation">(</span>kubectl get nodes <span class="token operator">--</span>namespace <span class="token punctuation">{</span><span class="token punctuation">{</span> <span class="token punctuation">.</span>Values<span class="token punctuation">.</span>namespace <span class="token punctuation">}</span><span class="token punctuation">}</span> <span class="token operator">-</span>o jsonpath<span class="token operator">=</span><span class="token string">"{.items[0].status.addresses[0].address}"</span><span class="token punctuation">)</span>
+  echo http<span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span>$NODE_IP<span class="token punctuation">:</span>$NODE_PORT
+<span class="token punctuation">{</span><span class="token punctuation">{</span><span class="token operator">-</span> <span class="token keyword">else</span> <span class="token keyword">if</span> contains <span class="token string">"ClusterIP"</span> <span class="token punctuation">.</span>Values<span class="token punctuation">.</span>service<span class="token punctuation">.</span><span class="token keyword">type</span> <span class="token punctuation">}</span><span class="token punctuation">}</span>
+  export POD_NAME<span class="token operator">=</span>$<span class="token punctuation">(</span>kubectl get pods <span class="token operator">--</span>namespace <span class="token punctuation">{</span><span class="token punctuation">{</span> <span class="token punctuation">.</span>Values<span class="token punctuation">.</span>namespace <span class="token punctuation">}</span><span class="token punctuation">}</span> <span class="token operator">-</span>l <span class="token string">"app=frontend"</span> <span class="token operator">-</span>o jsonpath<span class="token operator">=</span><span class="token string">"{.items[0].metadata.name}"</span><span class="token punctuation">)</span>
+  echo <span class="token string">"Visit http://127.0.0.1:8080 to use your application"</span>
+  kubectl <span class="token operator">--</span>namespace <span class="token punctuation">{</span><span class="token punctuation">{</span> <span class="token punctuation">.</span>Values<span class="token punctuation">.</span>namespace <span class="token punctuation">}</span><span class="token punctuation">}</span> port<span class="token operator">-</span>forward $POD_NAME <span class="token number">8080</span><span class="token punctuation">:</span><span class="token number">80</span>
+<span class="token punctuation">{</span><span class="token punctuation">{</span><span class="token operator">-</span> end <span class="token punctuation">}</span><span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>上面这是 <code>NOTES.txt</code> 文件内的内容。 这些内容会在 <code>helm install</code> 执行成功后显示在终端，用于说明服务如何访问或者其他注意事项等。<br>当然，这里的内容主要是为了说明如何编写 <code>chart</code> ，在实践中，尽量避免硬编码配置在里面。</p>
+<h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><hr>
+<h3 id="直接部署"><a href="#直接部署" class="headerlink" title="直接部署"></a>直接部署</h3><p>Helm 的 chart 可以直接在源码目录下通过 helm install 完成部署。例如:</p>
+<pre class="line-numbers language-bash"><code class="language-bash">helm <span class="token function">install</span> saythx<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h3><pre class="line-numbers language-bash"><code class="language-bash">helm package saythx<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://shouneng.website" rel="external nofollow noreferrer">少年G</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://shouneng.website/2019/10/09/kubernetes-ying-yong-guan-li-gong-ju-cha-jian-helm-de-an-zhuang-yu-shi-yong/">https://shouneng.website/2019/10/09/kubernetes-ying-yong-guan-li-gong-ju-cha-jian-helm-de-an-zhuang-yu-shi-yong/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="https://shouneng.website" target="_blank">少年G</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/k8s/">
+                                    <span class="chip bg-color">k8s</span>
+                                </a>
+                            
+                                <a href="/tags/helm/">
+                                    <span class="chip bg-color">helm</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">Buy me a coffe?</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: 'abe1f078df4c41c02917',
+        clientSecret: '5cca9a3110ba22e0f959ea3aaf7ff2eeebd4e3e3',
+        repo: 'aruruka.github.io',
+        owner: 'aruruka',
+        admin: "aruruka",
+        id: '2019-10-09T14-21-36',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2019/10/16/aws-support-faq/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/30.jpg" class="responsive-img" alt="AWS Support FAQ">
+                        
+                        <span class="card-title">AWS Support FAQ</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            Record AWS Support FAQ log.
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2019-10-16
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/AWS/" class="post-category">
+                                    AWS
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/AWS/">
+                        <span class="chip bg-color">AWS</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/09/25/shi-dao-ru-jin-yi-jing-bu-gan-wen-de-wang-luo-ji-chu-hu-lian-wang-ji-chu-wang-luo-tcp/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="事到如今已经不敢问的网络基础-互联网-基础-网络-TCP">
+                        
+                        <span class="card-title">事到如今已经不敢问的网络基础-互联网-基础-网络-TCP</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            网络基础 TCP/IP模型 协议
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-09-25
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/网络基础/" class="post-category">
+                                    网络基础
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/TCP-IP/">
+                        <span class="chip bg-color">TCP/IP</span>
+                    </a>
+                    
+                    <a href="/tags/HTTP/">
+                        <span class="chip bg-color">HTTP</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 少年G的博客<br />'
+            + '文章作者: 少年G<br />'
+            + '文章链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="883064937"
+                   fixed='true'
+                   autoplay='false'
+                   theme:='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+
+    
+    <div class="container row center-align" style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2019</span>
+            <a href="https://shouneng.website" target="_blank">少年G</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2019";
+                    var startMonth = "08";
+                    var startDate = "22";
+                    var startHour = "0";
+                    var startMinute = "0";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/aruruka" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:keraymondyan69@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="https://www.facebook.com/aruruka" class="tooltipped" target="_blank" data-tooltip="关注我的Facebook: https://www.facebook.com/aruruka" data-position="top" data-delay="50">
+        <i class="fab fa-facebook-f"></i>
+    </a>
+
+
+
+    <a href="https://twitter.com/aruruka" class="tooltipped" target="_blank" data-tooltip="关注我的Twitter: https://twitter.com/aruruka" data-position="top" data-delay="50">
+        <i class="fab fa-twitter"></i>
+    </a>
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=273456339" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 273456339" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+    <a href="https://weibo.com/keraymondyan69" class="tooltipped" target="_blank" data-tooltip="关注我的微博: https://weibo.com/keraymondyan69" data-position="top" data-delay="50">
+        <i class="fab fa-weibo"></i>
+    </a>
+
+
+
+    <a href="https://www.zhihu.com/people/shouneng" class="tooltipped" target="_blank" data-tooltip="关注我的知乎: https://www.zhihu.com/people/shouneng" data-position="top" data-delay="50">
+        <i class="fab fa-zhihu1">知</i>
+    </a>
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-27145379-5"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+    gtag('config', 'UA-27145379-5');
+</script>
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

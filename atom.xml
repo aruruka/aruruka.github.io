@@ -1,0 +1,588 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>少年G的博客</title>
+  
+  <subtitle>基于公有云的DevOps</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://shouneng.website/"/>
+  <updated>2020-10-26T00:17:21.112Z</updated>
+  <id>https://shouneng.website/</id>
+  
+  <author>
+    <name>少年G</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>YARN Architecture</title>
+    <link href="https://shouneng.website/2020/10/26/yarn-architecture/"/>
+    <id>https://shouneng.website/2020/10/26/yarn-architecture/</id>
+    <published>2020-10-26T00:11:04.000Z</published>
+    <updated>2020-10-26T00:17:21.112Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;什么是-YARN-以及-YARN-的架构&quot;&gt;&lt;a href=&quot;#什么是-YARN-以及-YARN-的架构&quot; class=&quot;headerlink&quot; title=&quot;什么是 YARN 以及 YARN 的架构&quot;&gt;&lt;/a&gt;什么是 YARN 以及 YARN
+        
+      
+    
+    </summary>
+    
+      <category term="大数据" scheme="https://shouneng.website/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
+    
+    
+      <category term="Hadoop" scheme="https://shouneng.website/tags/Hadoop/"/>
+    
+      <category term="YARN" scheme="https://shouneng.website/tags/YARN/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ClouderaManager Setup Kerberos Missing Credentials</title>
+    <link href="https://shouneng.website/2020/10/19/clouderamanager-setup-kerberos-missing-credentials/"/>
+    <id>https://shouneng.website/2020/10/19/clouderamanager-setup-kerberos-missing-credentials/</id>
+    <published>2020-10-19T04:01:47.000Z</published>
+    <updated>2020-10-19T04:26:17.308Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;记一次Cloudera-Manager关于Kerberos的credentials-missing问题&quot;&gt;&lt;a href=&quot;#记一次Cloudera-Manager关于Kerberos的credentials-missing问题&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="信息安全" scheme="https://shouneng.website/categories/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/"/>
+    
+    
+      <category term="Kerberos" scheme="https://shouneng.website/tags/Kerberos/"/>
+    
+      <category term="ClouderaManager" scheme="https://shouneng.website/tags/ClouderaManager/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MapReduce Computation Framework</title>
+    <link href="https://shouneng.website/2020/10/15/mapreduce-computation-framework/"/>
+    <id>https://shouneng.website/2020/10/15/mapreduce-computation-framework/</id>
+    <published>2020-10-14T16:41:47.000Z</published>
+    <updated>2020-10-14T16:44:25.995Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;MapReduce-计算框架概要&quot;&gt;&lt;a href=&quot;#MapReduce-计算框架概要&quot; class=&quot;headerlink&quot; title=&quot;MapReduce 计算框架概要&quot;&gt;&lt;/a&gt;MapReduce 计算框架概要&lt;/h1&gt;&lt;p&gt;上一期我们聊到
+        
+      
+    
+    </summary>
+    
+      <category term="大数据" scheme="https://shouneng.website/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
+    
+    
+      <category term="Hadoop" scheme="https://shouneng.website/tags/Hadoop/"/>
+    
+      <category term="MapReduce" scheme="https://shouneng.website/tags/MapReduce/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MapReduce Programming Model</title>
+    <link href="https://shouneng.website/2020/10/06/mapreduce-programming-model/"/>
+    <id>https://shouneng.website/2020/10/06/mapreduce-programming-model/</id>
+    <published>2020-10-06T08:57:32.000Z</published>
+    <updated>2020-10-07T00:13:19.467Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;MapReduce-Programming-Model&quot;&gt;&lt;a href=&quot;#MapReduce-Programming-Model&quot; class=&quot;headerlink&quot; title=&quot;MapReduce Programming
+        
+      
+    
+    </summary>
+    
+      <category term="大数据" scheme="https://shouneng.website/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
+    
+    
+      <category term="Hadoop" scheme="https://shouneng.website/tags/Hadoop/"/>
+    
+      <category term="MapReduce" scheme="https://shouneng.website/tags/MapReduce/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>HDFS Architecture and Explaination of Design</title>
+    <link href="https://shouneng.website/2020/09/29/hdfs-architecture-and-explaination-of-design/"/>
+    <id>https://shouneng.website/2020/09/29/hdfs-architecture-and-explaination-of-design/</id>
+    <published>2020-09-29T05:43:11.000Z</published>
+    <updated>2020-09-29T05:47:51.681Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;HDFS-架构以及解释其设计&quot;&gt;&lt;a href=&quot;#HDFS-架构以及解释其设计&quot; class=&quot;headerlink&quot; title=&quot;HDFS 架构以及解释其设计&quot;&gt;&lt;/a&gt;HDFS
+        
+      
+    
+    </summary>
+    
+      <category term="大数据" scheme="https://shouneng.website/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
+    
+    
+      <category term="Hadoop" scheme="https://shouneng.website/tags/Hadoop/"/>
+    
+      <category term="HDFS" scheme="https://shouneng.website/tags/HDFS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>使用官方 CloudFormation 模板部署 EKS</title>
+    <link href="https://shouneng.website/2020/06/09/shi-yong-guan-fang-cloudformation-mo-ban-bu-shu-eks/"/>
+    <id>https://shouneng.website/2020/06/09/shi-yong-guan-fang-cloudformation-mo-ban-bu-shu-eks/</id>
+    <published>2020-06-09T11:05:52.000Z</published>
+    <updated>2020-07-17T06:50:47.415Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;AWS-Elastic-Kubernetes-Service-EKS-快速入门-Quick-Start-的指南&quot;&gt;&lt;a href=&quot;#AWS-Elastic-Kubernetes-Service-EKS-快速入门-Quick-Start-的指南&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="DevOps" scheme="https://shouneng.website/categories/DevOps/"/>
+    
+    
+      <category term="AWS" scheme="https://shouneng.website/tags/AWS/"/>
+    
+      <category term="Kubernetes" scheme="https://shouneng.website/tags/Kubernetes/"/>
+    
+      <category term="EKS" scheme="https://shouneng.website/tags/EKS/"/>
+    
+      <category term="CloudFormation" scheme="https://shouneng.website/tags/CloudFormation/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Quick guide to deploying and using Traefik 2.0 on Kubernetes</title>
+    <link href="https://shouneng.website/2020/04/08/quick-guide-to-deploying-and-using-traefik-2-0-on-kubernetes/"/>
+    <id>https://shouneng.website/2020/04/08/quick-guide-to-deploying-and-using-traefik-2-0-on-kubernetes/</id>
+    <published>2020-04-08T01:28:07.000Z</published>
+    <updated>2020-04-08T03:55:12.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;在Kubernetes中部署和使用Traefik-2-0的快速指南&quot;&gt;&lt;a href=&quot;#在Kubernetes中部署和使用Traefik-2-0的快速指南&quot; class=&quot;headerlink&quot; title=&quot;在Kubernetes中部署和使用Traefik
+        
+      
+    
+    </summary>
+    
+      <category term="Kubernetes" scheme="https://shouneng.website/categories/Kubernetes/"/>
+    
+    
+      <category term="Kubernetes" scheme="https://shouneng.website/tags/Kubernetes/"/>
+    
+      <category term="Traefik" scheme="https://shouneng.website/tags/Traefik/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Change Rook Ceph filestore</title>
+    <link href="https://shouneng.website/2020/03/23/change-rook-ceph-filestore/"/>
+    <id>https://shouneng.website/2020/03/23/change-rook-ceph-filestore/</id>
+    <published>2020-03-23T10:16:16.000Z</published>
+    <updated>2020-03-23T10:52:51.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;Backgroud-reason&quot;&gt;&lt;a href=&quot;#Backgroud-reason&quot; class=&quot;headerlink&quot; title=&quot;Backgroud reason&quot;&gt;&lt;/a&gt;Backgroud reason&lt;/h1&gt;&lt;p&gt;After
+        
+      
+    
+    </summary>
+    
+      <category term="Kubernetes" scheme="https://shouneng.website/categories/Kubernetes/"/>
+    
+    
+      <category term="Ceph" scheme="https://shouneng.website/tags/Ceph/"/>
+    
+      <category term="Kubernetes" scheme="https://shouneng.website/tags/Kubernetes/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Ceph Performance Testing</title>
+    <link href="https://shouneng.website/2020/03/23/ceph-performance-testing/"/>
+    <id>https://shouneng.website/2020/03/23/ceph-performance-testing/</id>
+    <published>2020-03-23T09:56:13.000Z</published>
+    <updated>2020-03-23T11:09:44.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;Performance-test-on-Erasure-Coded-Block-Storage&quot;&gt;&lt;a href=&quot;#Performance-test-on-Erasure-Coded-Block-Storage&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="Kubernetes" scheme="https://shouneng.website/categories/Kubernetes/"/>
+    
+    
+      <category term="Ceph" scheme="https://shouneng.website/tags/Ceph/"/>
+    
+      <category term="Kubernetes" scheme="https://shouneng.website/tags/Kubernetes/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>About-Rook-Ceph</title>
+    <link href="https://shouneng.website/2020/03/18/about-rook-ceph/"/>
+    <id>https://shouneng.website/2020/03/18/about-rook-ceph/</id>
+    <published>2020-03-18T14:31:15.000Z</published>
+    <updated>2020-03-18T16:10:35.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;Rook-Ceph&quot;&gt;&lt;a href=&quot;#Rook-Ceph&quot; class=&quot;headerlink&quot; title=&quot;Rook Ceph&quot;&gt;&lt;/a&gt;Rook Ceph&lt;/h1&gt;&lt;h2 id=&quot;Why-StatefulSets&quot;&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+      <category term="Kubernetes" scheme="https://shouneng.website/categories/Kubernetes/"/>
+    
+    
+      <category term="Ceph" scheme="https://shouneng.website/tags/Ceph/"/>
+    
+      <category term="Kubernetes" scheme="https://shouneng.website/tags/Kubernetes/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Calico Practicing-3 -- How To Configure Accessing Calico Endpoint From Outside of The Cluster</title>
+    <link href="https://shouneng.website/2020/01/19/calico-practicing-3-how-to-configure-accessing-calico-endpoint-from-outside-of-the-cluster/"/>
+    <id>https://shouneng.website/2020/01/19/calico-practicing-3-how-to-configure-accessing-calico-endpoint-from-outside-of-the-cluster/</id>
+    <published>2020-01-19T10:19:37.000Z</published>
+    <updated>2020-01-19T11:33:04.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;How-To-Configure-Accessing-Calico-Endpoint-From-Outside-of-The-Cluster&quot;&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+      <category term="Kubernetes" scheme="https://shouneng.website/categories/Kubernetes/"/>
+    
+    
+      <category term="Calico" scheme="https://shouneng.website/tags/Calico/"/>
+    
+      <category term="k8s" scheme="https://shouneng.website/tags/k8s/"/>
+    
+      <category term="SDN" scheme="https://shouneng.website/tags/SDN/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Calico Practicing-2 -- About Calico Networking Option</title>
+    <link href="https://shouneng.website/2020/01/19/calico-practicing-2-about-calico-networking-option/"/>
+    <id>https://shouneng.website/2020/01/19/calico-practicing-2-about-calico-networking-option/</id>
+    <published>2020-01-19T10:05:27.000Z</published>
+    <updated>2020-01-19T10:16:03.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;Calico-Networking-Option&quot;&gt;&lt;a href=&quot;#Calico-Networking-Option&quot; class=&quot;headerlink&quot; title=&quot;Calico Networking Option&quot;&gt;&lt;/a&gt;Calico
+        
+      
+    
+    </summary>
+    
+      <category term="Kubernetes" scheme="https://shouneng.website/categories/Kubernetes/"/>
+    
+    
+      <category term="Calico" scheme="https://shouneng.website/tags/Calico/"/>
+    
+      <category term="k8s" scheme="https://shouneng.website/tags/k8s/"/>
+    
+      <category term="SDN" scheme="https://shouneng.website/tags/SDN/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Calico Practicing-1 -- About Calico</title>
+    <link href="https://shouneng.website/2020/01/19/calico-practicing-1-about-calico/"/>
+    <id>https://shouneng.website/2020/01/19/calico-practicing-1-about-calico/</id>
+    <published>2020-01-19T09:46:27.000Z</published>
+    <updated>2020-01-19T10:01:30.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;About-Calico&quot;&gt;&lt;a href=&quot;#About-Calico&quot; class=&quot;headerlink&quot; title=&quot;About Calico&quot;&gt;&lt;/a&gt;About Calico&lt;/h1&gt;&lt;p&gt;I’m going to talk about my
+        
+      
+    
+    </summary>
+    
+      <category term="Kubernetes" scheme="https://shouneng.website/categories/Kubernetes/"/>
+    
+    
+      <category term="Calico" scheme="https://shouneng.website/tags/Calico/"/>
+    
+      <category term="k8s" scheme="https://shouneng.website/tags/k8s/"/>
+    
+      <category term="SDN" scheme="https://shouneng.website/tags/SDN/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>在Kubernetes中如何配置Traefik作为Ingress Controller暴露服务以及如何排错</title>
+    <link href="https://shouneng.website/2019/12/31/how-to-setup-traefik-as-ingress-controller-to-expose-service-from-kubernetes/"/>
+    <id>https://shouneng.website/2019/12/31/how-to-setup-traefik-as-ingress-controller-to-expose-service-from-kubernetes/</id>
+    <published>2019-12-31T03:38:55.000Z</published>
+    <updated>2019-12-31T03:48:33.215Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;使用-traefik-ingress方案。ingress配置了自定义域名，无法访问。&quot;&gt;&lt;a href=&quot;#使用-traefik-ingress方案。ingress配置了自定义域名，无法访问。&quot; class=&quot;headerlink&quot; title=&quot;使用
+        
+      
+    
+    </summary>
+    
+      <category term="Kubernetes" scheme="https://shouneng.website/categories/Kubernetes/"/>
+    
+    
+      <category term="k8s" scheme="https://shouneng.website/tags/k8s/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Story about microservice migrating from cloud host to Kubernetes - 01</title>
+    <link href="https://shouneng.website/2019/12/11/wei-fu-wu-cong-xu-ni-ji-zhuan-k8s-de-ji-lu-01/"/>
+    <id>https://shouneng.website/2019/12/11/wei-fu-wu-cong-xu-ni-ji-zhuan-k8s-de-ji-lu-01/</id>
+    <published>2019-12-11T14:33:29.000Z</published>
+    <updated>2020-01-14T10:57:59.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;目录&quot;&gt;&lt;a href=&quot;#目录&quot; class=&quot;headerlink&quot; title=&quot;目录&quot;&gt;&lt;/a&gt;目录&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;IoT品牌网站&lt;/strong&gt;基础设施列表&lt;ul&gt;
+&lt;li&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+      <category term="DevOps" scheme="https://shouneng.website/categories/DevOps/"/>
+    
+    
+      <category term="k8s" scheme="https://shouneng.website/tags/k8s/"/>
+    
+      <category term="微服务" scheme="https://shouneng.website/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"/>
+    
+      <category term="Spring Boot" scheme="https://shouneng.website/tags/Spring-Boot/"/>
+    
+      <category term="Spring Cloud" scheme="https://shouneng.website/tags/Spring-Cloud/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>关于Docker文件系统</title>
+    <link href="https://shouneng.website/2019/10/21/guan-yu-docker-wen-jian-xi-tong/"/>
+    <id>https://shouneng.website/2019/10/21/guan-yu-docker-wen-jian-xi-tong/</id>
+    <published>2019-10-21T10:31:48.000Z</published>
+    <updated>2019-10-21T10:34:56.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;目的&quot;&gt;&lt;a href=&quot;#目的&quot; class=&quot;headerlink&quot; title=&quot;目的&quot;&gt;&lt;/a&gt;目的&lt;/h1&gt;&lt;p&gt;调查 Docker
+        
+      
+    
+    </summary>
+    
+      <category term="Docker" scheme="https://shouneng.website/categories/Docker/"/>
+    
+    
+      <category term="Docker" scheme="https://shouneng.website/tags/Docker/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>对于kubernetes(k8s)入门需要了解的docker基础</title>
+    <link href="https://shouneng.website/2019/10/21/dui-yu-kubernetes-k8s-ru-men-xu-yao-liao-jie-de-docker-ji-chu/"/>
+    <id>https://shouneng.website/2019/10/21/dui-yu-kubernetes-k8s-ru-men-xu-yao-liao-jie-de-docker-ji-chu/</id>
+    <published>2019-10-21T10:12:15.000Z</published>
+    <updated>2019-10-21T10:21:39.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;本文假设读者都是开发者，并熟悉 Linux 环境，所以就不介绍基础的技术概念了。命令行环境以 Linux 示例。&lt;/p&gt;
+&lt;h1
+        
+      
+    
+    </summary>
+    
+      <category term="Docker" scheme="https://shouneng.website/categories/Docker/"/>
+    
+    
+      <category term="Docker" scheme="https://shouneng.website/tags/Docker/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>k8s版本规划的意义</title>
+    <link href="https://shouneng.website/2019/10/21/k8s-ban-ben-gui-hua-de-yi-yi/"/>
+    <id>https://shouneng.website/2019/10/21/k8s-ban-ben-gui-hua-de-yi-yi/</id>
+    <published>2019-10-21T09:22:45.000Z</published>
+    <updated>2019-10-21T09:29:55.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;本文目的&quot;&gt;&lt;a href=&quot;#本文目的&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="DevOps" scheme="https://shouneng.website/categories/DevOps/"/>
+    
+    
+      <category term="k8s" scheme="https://shouneng.website/tags/k8s/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>AWS Support FAQ</title>
+    <link href="https://shouneng.website/2019/10/16/aws-support-faq/"/>
+    <id>https://shouneng.website/2019/10/16/aws-support-faq/</id>
+    <published>2019-10-16T11:15:38.000Z</published>
+    <updated>2019-10-16T11:25:14.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;内存相关&quot;&gt;&lt;a href=&quot;#内存相关&quot; class=&quot;headerlink&quot; title=&quot;内存相关&quot;&gt;&lt;/a&gt;内存相关&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Q: What’s the meaning of metric
+        
+      
+    
+    </summary>
+    
+      <category term="AWS" scheme="https://shouneng.website/categories/AWS/"/>
+    
+    
+      <category term="AWS" scheme="https://shouneng.website/tags/AWS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>kubernetes应用管理工具插件helm的安装与使用</title>
+    <link href="https://shouneng.website/2019/10/09/kubernetes-ying-yong-guan-li-gong-ju-cha-jian-helm-de-an-zhuang-yu-shi-yong/"/>
+    <id>https://shouneng.website/2019/10/09/kubernetes-ying-yong-guan-li-gong-ju-cha-jian-helm-de-an-zhuang-yu-shi-yong/</id>
+    <published>2019-10-09T06:21:36.000Z</published>
+    <updated>2019-10-09T07:17:20.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;helm组件结构&quot;&gt;&lt;a href=&quot;#helm组件结构&quot; class=&quot;headerlink&quot; title=&quot;helm组件结构&quot;&gt;&lt;/a&gt;helm组件结构&lt;/h1&gt;&lt;hr&gt;
+&lt;p&gt;Helm 是 C/S 架构，主要分为客户端 &lt;code&gt;helm&lt;/code&gt;
+        
+      
+    
+    </summary>
+    
+      <category term="DevOps" scheme="https://shouneng.website/categories/DevOps/"/>
+    
+    
+      <category term="k8s" scheme="https://shouneng.website/tags/k8s/"/>
+    
+      <category term="helm" scheme="https://shouneng.website/tags/helm/"/>
+    
+  </entry>
+  
+</feed>

@@ -1,0 +1,1533 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="MapReduce Computation Framework, Cloudera Kubernetes k8s DevOps 少年G ShounenG aruruka">
+    <meta name="description" content="MapReduce既是编程模型又是计算框架，尽管对于我们来说只需要实现map和reduce函数就能完成业务，但是前提是要对MapReduce编程框架的内部机制有清晰的概念。">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>MapReduce Computation Framework | 少年G的博客</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+    
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">少年G的博客</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">少年G的博客</div>
+        <div class="logo-desc">
+            
+            专注于DevOps
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/aruruka" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/aruruka" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">MapReduce Computation Framework</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Hadoop/">
+                                <span class="chip bg-color">Hadoop</span>
+                            </a>
+                        
+                            <a href="/tags/MapReduce/">
+                                <span class="chip bg-color">MapReduce</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/大数据/" class="post-category">
+                                大数据
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2020-10-15
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2020-10-15
+                </div>
+                
+
+                
+
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="MapReduce-计算框架概要"><a href="#MapReduce-计算框架概要" class="headerlink" title="MapReduce 计算框架概要"></a>MapReduce 计算框架概要</h1><p>上一期我们聊到 MapReduce 编程模型将大数据计算过程切分为 Map 和 Reduce 两个阶段。<br>先复习一下，在 Map 阶段为每个数据块分配一个 Map 计算任务，然后将所有 map 输出的 Key 进行合并。<br>相同的 Key 及其对应的 Value 发送给同一个 Reduce 任务去处理。通过这两个阶段，工程师只需要遵循 MapReduce 编程模型就可以开发出复杂的大数据计算程序。</p>
+<p>我们已经对 MapReduce 有一个值观的认识并知道它的工作原理：将输入拆分成多份小输出并行处理。<br>现在是时候来鸟瞰一下 MapReduce 的整体系统架构和数据流的走向了。</p>
+<p>在一个经典的Hadoop集群中，MapReduce 运行在 HDFS 和 YARN 之上。</p>
+<p>HDFS 是一个<strong>分布式文件系统</strong>，它提供了将大数据文件以分散和高可用的形式存放在大规模节点的集群中的功能，详细的介绍可以参考我<a href="https://shouneng.website/2020/09/29/hdfs-architecture-and-explaination-of-design/">之前的文章</a>。</p>
+<p>YARN 则是一个比较抽象的概念。我们姑且先将它理解为一组后台进程，目的是为了做两件事情：</p>
+<ul>
+<li>资源管理（CPU、内存等计算资源）</li>
+<li>作业调度、监视</li>
+</ul>
+<p>这两件事情其实是 Hadoop 作为分布式系统来看的核心功能，我认为这也是管理基础设施（服务器的计算资源和进程）的分布式系统共同的核心目的。<br>说得通俗一点就是管理进程和分配资源的分布式系统。</p>
+<h2 id="Hadoop-1-vs-Hadoop-2"><a href="#Hadoop-1-vs-Hadoop-2" class="headerlink" title="Hadoop 1 vs Hadoop 2"></a>Hadoop 1 vs Hadoop 2</h2><p>Hadoop 现在的最新大版本是 3.x，我们需要知道 1.x 和 2.x 之间在基础组件上是有重大区别的。</p>
+<p>最主要的区别就是新增了 YARN 这个基础组件。我们应该知道，一切的中间层都是为了解耦。</p>
+<blockquote>
+<p>计算机科学中的每个问题都可以用一间接层解决<br>(All problems in computer science can be solved by another level of indirection.)</p>
+<p>by: David John Wheeler - 他是世界上第一个计算机科学博士。</p>
+</blockquote>
+<p>YARN 的基本思想是将<strong>资源管理</strong>和<strong>作业调度/监视</strong>的功能拆分为单独的守护程序。<br>这里，我只简单地提及一下 Hadoop 1.x 和 2.x 的区别，之后在学习 YARN 的时候，再详细讲它的架构和工作方式。</p>
+<h2 id="术语"><a href="#术语" class="headerlink" title="术语"></a>术语</h2><p>首先，我们来看一下 MapReduce 相关的术语(glossary)。</p>
+<ul>
+<li><p><em>作业(job)</em></p>
+<p>MapReduce作业是客户端要执行的工作单元：它由输入数据，MapReduce程序和配置信息组成。</p>
+</li>
+<li><p><em>任务(task)</em></p>
+<p>有两种类型：map任务和reduce任务。这些任务是使用 YARN 来调度的，并在群集中的节点上运行。如果任务失败，它将自动重新安排为在其他节点上运行。</p>
+</li>
+</ul>
+<blockquote>
+<p>注意：Hadoop 1.x 没有 YARN，所以任务的调度是集成在 MapReduce 框架内的。<br>并且由于从 Hadoop 2.x 开始，除了支持 MapReduce，还有 Spark 这样的新的计算框架，为了将编程模型和调度引擎解耦，YARN 才应运而生。</p>
+</blockquote>
+<ul>
+<li><p><em>输入数据分片(input split)</em></p>
+<p>Hadoop将MapReduce作业的输入分为固定大小的片段，称为输入数据分片或分片。 Hadoop为每个分片创建一个map任务，该任务为分片中的每个记录运行用户定义（编写）的map函数。</p>
+</li>
+<li><p><em>记录(record)</em></p>
+<p>在 MapReduce 中，有2个和输入数据相关的概念：ImputFormat和RecordReader。我们应该先从宏观上理解。<br>对于操作系统机而言，一切数据都是以字节为单位来存储的，通过各种编码来转换并应用于文本、音频、视频等数据格式。<br>HDFS实现了一套数据类型的输入规范，比如一行原始数据文本可能保存在多个数据块中，HDFS将封装好的数据类型接口提供给我们来使用。就像我们在Python中调用file()系统方法来调用OS的接口以打开一个本地文件一样。<br>常见的InputFormat有FileInputFormat，以及其子类TextInputFormat。<br>MapReduce 框架依赖 InputFormat 来处理输入的数据。<br>你可以类比成这个场景：当一个压缩文件太大了，你的单块磁盘装不下，你就需要将这个压缩文件拆分成多个分割文件。<br>比如：example.rar分割成example.part1.rar, example.part2.rar,…<br>我们在处理这些压缩文件的分割文件时，需要指定压缩格式，这个压缩格式就类似于MapReduce中的InputFormat。<br>通常，RecordReader会转换输入数据块提供的输入的面向字节的视图，并将面向记录的形式呈现给Mapper实现以进行处理。<br>在TextInputFormat前提下，一个记录就是经过RecordReader处理后的一行文本，以<code>\n</code>为分隔符。<br>值得注意的是，原始文本数据存储在HDFS中时，不一定是在同一个数据块中的，所以这是TextInputFormat实现的逻辑。</p>
+</li>
+<li><p><em>数据局部性优化(data locality optimization)</em></p>
+<p>在一个HDFS节点上保存着数据，Hadoop会尽力在该节点上运行map任务，因为这样不会使用宝贵的集群网络带宽。</p>
+</li>
+<li><p><em>分区(partition)</em></p>
+<p>这里的分区指map任务输出的中间产物，是在交给reducer消费前聚合的产物。请参考<strong>图例 2-4</strong>。</p>
+</li>
+<li><p><em>组合器函数(Combiner Functions)</em></p>
+<p>这是用户自定义的，作用于map任务的输出，并且是在”Shuffle and Sort”的过程中被执行的，更准确地说，由于这个是为了减少跨界点的网络带宽使用量，所以是在shuffle的过程中，在map任务本地节点上使用本地的中间产出物执行的。</p>
+</li>
+</ul>
+<h2 id="数据流向"><a href="#数据流向" class="headerlink" title="数据流向"></a>数据流向</h2><p>现在我们知道，MapReduce的map任务会读取节点上的数据块，根据数据块、map任务所在的节点位置，可以推导出以下3种分部情况，如图例2-2：</p>
+<p><img src="https://i.ibb.co/1nQjGPB/mapreduce-input-block-topology.png" alt="MapReduce任务和数据的拓扑关系"></p>
+<p><strong><em>图例 2-2. Data-local (a), rack-local (b), and off-rack (c) map tasks</em></strong></p>
+<p>map任务的输出是MapReduce作业的中间产物，是给reduce任务使用的，reduce任务一完成就没用了，所以不会保存在HDFS中，只会保存在本地文件系统中。<br>如果一个reduce任务在消费map的中间产物过程中，map所在的节点失败了，那Hadoop会自动重新找一个节点再运行一次该map任务。</p>
+<p>reduce任务不会用到本地文件系统，通常来说一个reduce任务的输入是所有mapper的输出。所以运行reduce任务通常肯定会消耗集群中网络带宽，但是也只会和普通的HDFS层面的管道写入操作消耗相同的带宽。</p>
+<p>单个reduce任务的整个数据流向如图例 2-3：</p>
+<p><img src="https://i.ibb.co/b3Q9Yxs/mapreduce-single-reduce-data-flow.png" alt="MapReduce单个reduce情况的数据流向"></p>
+<p><strong><em>图例 2-3. MapReduce data flow with a single reduce task</em></strong></p>
+<p><strong>reduce任务的数量不是靠输入数据的大小来决定的，而是有单独指定的方式。之后我会阐述如何选择reduce任务的数量。</strong></p>
+<p>在有多个reducer的情况下，map任务会将它们的输出进行分区处理，每个分区将被一个reducer来消费。<br>在每个分区中可能有多个<code>&lt;Key, Value&gt;</code>，并且相同的key只会在同一个分区中出现。</p>
+<p>一个有着多个reduce任务的数据流向如图例 2-4：</p>
+<p><img src="https://i.ibb.co/xgcwP19/mapreduce-multiple-reduce-data-flow.png" alt="MapReduce多个reduce情况的数据流向"></p>
+<p><strong><em>图例 2-4. MapReduce data flow with multiple reduce tasks</em></strong></p>
+<p>在图中的map和reduce任务之间的生成中间产物的阶段，我们习惯称之为”Shuffle and Sort”，实际上比上面的2个图例要复杂很多，对这个过程的调优将会对作业的执行时间产生巨大的影响。<br>之后我也许会记录这个过程的细节。</p>
+<p>最后，还有一种是只有0个reduce任务的情况。<br>这种情况就是你的业务需求不需要执行”shuffle”阶段的操作。这个情况的例子包括使用<code>NLineInputFormat</code>这个InputFormat时的用例。后续有机会我也会记录。<br>这种情况下，会消耗带宽的操作只有map任务输出到HDFS时（参考图例 2-5），产生的跨节点的操作(repliacation)。</p>
+<h2 id="组合器函数-Combiner-Functions"><a href="#组合器函数-Combiner-Functions" class="headerlink" title="组合器函数(Combiner Functions)"></a>组合器函数(Combiner Functions)</h2><p>许多MapReduce作业受群集上可用带宽的限制，因此需要最大程度地减少在map和reduce任务之间传输的数据。<br>Hadoop允许用户指定要在map输出上运行的组合器函数，并且组合器函数的输出构成了reduce函数的输入。<br>因为合并器功能是一种优化，所以Hadoop不能保证它会为特定的map输出记录调用多少次（如果有的话）。<br>换句话说，调用组合器函数0，1或多次应从reducer产生相同的输出。</p>
+<p><img src="https://i.ibb.co/0q7QKbP/mapreduce-only-map-data-flow.png" alt="MapReduce只有map的情况的数据流向"></p>
+<p><strong><em>图例 2-5. MapReduce data flow with no reduce tasks</em></strong></p>
+<p>组合器函数的约定限制了可以使用的函数的类型。最好用一个例子说明。<br>假设以<a href="https://shouneng.website/2020/10/06/mapreduce-programming-model/#toc-heading-9">最高温度</a>为例，通过两个map处理了1950年的读数（因为它们位于不同的输入数据分片中）。想象一下第一个map产生的输出：</p>
+<pre class="line-numbers language-plain-text"><code class="language-plain-text">(1950, 0)
+(1950, 20)
+(1950, 10)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>第二个产生：</p>
+<pre class="line-numbers language-plain-text"><code class="language-plain-text">(1950, 25)
+(1950, 15)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>reduce函数将接受到所有的value形成的列表作为输入：</p>
+<pre class="line-numbers language-plain-text"><code class="language-plain-text">(1950, [0, 20, 10, 25, 15])<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>输出：</p>
+<pre class="line-numbers language-plain-text"><code class="language-plain-text">(1950, 25)<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>因为25是列表中的最大值。我们可以使用组合器函数，就像reduce函数一样，为每个map输出找到最高温度。然后reduce被调用时会接受到的输入就像以下这样：</p>
+<pre class="line-numbers language-plain-text"><code class="language-plain-text">(1950, [20, 25])<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>并将产生与以前相同的输出。更简洁地说，在这个案例下，我们可以按以下的方式解释对于温度value的函数调用：</p>
+<pre class="line-numbers language-platin-text"><code class="language-platin-text">max(0, 20, 10, 25, 15) = max(max(0, 20, 10), max(25, 15)) = max(20, 25) = 25<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>并非所有函数都具有此属性。例如，如果我们计算一个平均气温，我们不能使用mean函数来作为我们的组合其函数，因为：</p>
+<pre class="line-numbers language-plain-text"><code class="language-plain-text">mean(0, 20, 10, 25, 15) = 14<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>但是：</p>
+<pre class="line-numbers language-plain-text"><code class="language-plain-text">mean(mean(0, 20, 10), mean(25, 15)) = mean(10, 20) = 15<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>合并器函数不能替代reduce函数。（就如上面的例子一样，有些业务必须处理来自不同的map输出的相同的key所对应的value）<br>但这可以帮助减少map和reduce之间的数据交换量，仅出于这个原因，始终值得考虑是否可以在MapReduce作业中使用合并器函数。</p>
+<blockquote>
+<p>类似上面的max函数一样，具有此属性的函数称为<strong><em>可交换(commutative)</em></strong>的和<strong><em>关联的(associative)</em></strong>。<br>有的时候也被称为<strong><em>分布式的</em></strong>，例如Jim Gray等人的<br>“Data Cube: A Relational Aggregation Operator Generalizing Group-By,<br>Cross-Tab, and Sub-Totals”，February1995.</p>
+</blockquote>
+<h2 id="指定一个组合器函数"><a href="#指定一个组合器函数" class="headerlink" title="指定一个组合器函数"></a>指定一个组合器函数</h2><p>我们回到上一篇文章中的<a href="https://shouneng.website/2020/10/06/mapreduce-programming-model/#toc-heading-9">Java MapReduce程序</a>中去，组合器函数是使用<strong>Reducer</strong>类来定义的，并且对于这个应用程序来说，它的实现和<strong>MaxTemperatureReducer</strong>中的reduce函数一样。<br>唯一的变化是我们需要在Job上设置组合器的类（如 示例 2-6）。</p>
+<p><strong><em>示例 2-6. 在天气数据集中查找最高温的应用，使用组合器函数来提高效率</em></strong></p>
+<hr>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MaxTemperatureWithCombiner</span> <span class="token punctuation">{</span>
+
+  <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>args<span class="token punctuation">.</span>length <span class="token operator">!=</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      System<span class="token punctuation">.</span>err<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Usage: MaxTemperatureWithCombiner &lt;input path> "</span> <span class="token operator">+</span>
+          <span class="token string">"&lt;output path>"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      System<span class="token punctuation">.</span><span class="token function">exit</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    Job job <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Job</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    job<span class="token punctuation">.</span><span class="token function">setJarByClass</span><span class="token punctuation">(</span>MaxTemperatureWithCombiner<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    job<span class="token punctuation">.</span><span class="token function">setJobName</span><span class="token punctuation">(</span><span class="token string">"Max temperature"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    FileInputFormat<span class="token punctuation">.</span><span class="token function">addInputPath</span><span class="token punctuation">(</span>job<span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">Path</span><span class="token punctuation">(</span>args<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    FileOutputFormat<span class="token punctuation">.</span><span class="token function">setOutputPath</span><span class="token punctuation">(</span>job<span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">Path</span><span class="token punctuation">(</span>args<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    job<span class="token punctuation">.</span><span class="token function">setMapperClass</span><span class="token punctuation">(</span>MaxTemperatureMapper<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong><code>job.setCombinerClass(MaxTemperatureReducer.class);</code></strong></p>
+<pre class="line-numbers language-java"><code class="language-java">    job<span class="token punctuation">.</span><span class="token function">setReducerClass</span><span class="token punctuation">(</span>MaxTemperatureReducer<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    job<span class="token punctuation">.</span><span class="token function">setOutputKeyClass</span><span class="token punctuation">(</span>Text<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    job<span class="token punctuation">.</span><span class="token function">setOutputValueClass</span><span class="token punctuation">(</span>IntWritable<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    System<span class="token punctuation">.</span><span class="token function">exit</span><span class="token punctuation">(</span>job<span class="token punctuation">.</span><span class="token function">waitForCompletion</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token number">0</span> <span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<blockquote>
+<p>NOTE: 对比<a href="https://shouneng.website/2020/10/06/mapreduce-programming-model/#toc-heading-9">Java MapReduce程序</a>中的<strong><em>示例 2-5</em></strong>，其实只是多了<code>job.setCombinerClass(MaxTemperatureReducer.class);</code>这一行。</p>
+</blockquote>
+<h2 id="Hadoop流-streaming"><a href="#Hadoop流-streaming" class="headerlink" title="Hadoop流(streaming)"></a>Hadoop流(streaming)</h2><p>Hadoop提供了MapReduce的API，该API允许您编写使用Java以外的其他语言来编写map和reduce函数。</p>
+<p>Hadoop Streaming使用Unix标准流作为Hadoop与您的程序之间的接口，因此您可以使用可以读取标准输入并写入标准输出的任何语言来编写MapReduce程序。</p>
+<p>流自然是适合文本处理的。Map输入数据通过标准输入传递到map函数，该map函数逐行对其进行处理并将行写入标准输出。<br>Map的输出的每一行为&lt;Key, Value&gt;对，以单个制表符为分隔符。<br>reduce函数的输入采用相同的格式（制表符分隔的&lt;Key, Value&gt;对），通过标准输入传入。<br>reduce函数从标准输入读取行，框架保证以Key来对行进行排序，并将其结果写入标准输出。</p>
+<p>让我们通过重写MapReduce程序来说明这一点，该程序可在Streaming中按年份查找最高温度。</p>
+<h3 id="Ruby"><a href="#Ruby" class="headerlink" title="Ruby"></a>Ruby</h3><p>map函数可以用Ruby表示，如示例 2-7所示。</p>
+<p><strong><em>示例 2-7. 用Ruby写的用来查找最高温的Map函数</em></strong></p>
+<hr>
+<pre class="line-numbers language-ruby"><code class="language-ruby"><span class="token comment" spellcheck="true">#!/usr/bin/env ruby</span>
+
+<span class="token constant">STDIN</span><span class="token punctuation">.</span>each_line <span class="token keyword">do</span> <span class="token operator">|</span>line<span class="token operator">|</span>
+  val <span class="token operator">=</span> line
+  year<span class="token punctuation">,</span> temp<span class="token punctuation">,</span> q <span class="token operator">=</span> val<span class="token punctuation">[</span><span class="token number">15</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">,</span> val<span class="token punctuation">[</span><span class="token number">87</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">,</span> val<span class="token punctuation">[</span><span class="token number">92</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">]</span>
+  puts <span class="token string">"<span class="token interpolation"><span class="token delimiter tag">#{</span>year<span class="token delimiter tag">}</span></span>\t<span class="token interpolation"><span class="token delimiter tag">#{</span>temp<span class="token delimiter tag">}</span></span>"</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>temp <span class="token operator">!=</span> <span class="token string">"+9999"</span> <span class="token operator">&amp;&amp;</span> q <span class="token operator">=</span><span class="token operator">~</span> <span class="token regex">/[01459]/</span><span class="token punctuation">)</span>
+<span class="token keyword">end</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>该程序通过对来自STDIN（IO类型的全局常量）中的每一行执行一个块(block)来遍历标准输入中的行。<br>该块从每个输入行中提取相关字段，如果温度有效，则将以制表符<code>\ t</code>分隔的年份和温度写入标准输出（使用puts）。</p>
+<p><strong>注意</strong></p>
+<p><strong>值得一提的是Streaming与Java MapReduce API之间的设计差异。<br>Java API的map函数旨在一次处理一个记录。<br>MapReduce框架为输入中的每个记录调用Mapper（类）上的map()方法，而通过流式处理，map程序可以决定如何处理输入–例如，由于你可以控制标准输入的数据，因此一次可以轻松读取和处理多行。<br>用户的Java map实现是“推送”记录，但通过在Mapper的实例变量中累积前几行，仍然可以考虑一次累计多行。<br>在这种情况下，您需要实现close()方法，以便知道何时读取了最后一条记录，从而可以完成对最后一组行的处理。</strong></p>
+<p>由于脚本仅在标准输入和输出上运行，因此无需使用Hadoop就可以轻松测试脚本，只需使用Unix管道即可：</p>
+<pre class="line-numbers language-bash"><code class="language-bash">% <span class="token function">cat</span> input/ncdc/sample.txt <span class="token operator">|</span> ch02-mr-intro/src/main/ruby/max_temperature_map.rb
+1950    +0000
+1950    +0022
+1950    -0011
+1949    +0111
+1949    +0078<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>示例2-8</strong>中显示的reduce函数稍微复杂一点。</p>
+<p><strong><em>示例2-8 用Ruby来计算出最高温度的reduce函数</em></strong></p>
+<hr>
+<pre class="line-numbers language-ruby"><code class="language-ruby"><span class="token comment" spellcheck="true">#!/usr/bin/env ruby</span>
+
+last_key<span class="token punctuation">,</span> max_val <span class="token operator">=</span> <span class="token keyword">nil</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1000000</span>
+<span class="token constant">STDIN</span><span class="token punctuation">.</span>each_line <span class="token keyword">do</span> <span class="token operator">|</span>line<span class="token operator">|</span>
+  key<span class="token punctuation">,</span> val <span class="token operator">=</span> line<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">"\t"</span><span class="token punctuation">)</span>
+  <span class="token keyword">if</span> last_key <span class="token operator">&amp;&amp;</span> last_key <span class="token operator">!=</span> key
+    puts <span class="token string">"<span class="token interpolation"><span class="token delimiter tag">#{</span>last_key<span class="token delimiter tag">}</span></span>\t<span class="token interpolation"><span class="token delimiter tag">#{</span>max_val<span class="token delimiter tag">}</span></span>"</span>
+    last_key<span class="token punctuation">,</span> max_val <span class="token operator">=</span> key<span class="token punctuation">,</span> val<span class="token punctuation">.</span>to_i
+  <span class="token keyword">else</span>
+    last_key<span class="token punctuation">,</span> max_val <span class="token operator">=</span> key<span class="token punctuation">,</span> <span class="token punctuation">[</span>max_val<span class="token punctuation">,</span> val<span class="token punctuation">.</span>to_i<span class="token punctuation">]</span><span class="token punctuation">.</span>max
+  <span class="token keyword">end</span>
+<span class="token keyword">end</span>
+puts <span class="token string">"<span class="token interpolation"><span class="token delimiter tag">#{</span>last_key<span class="token delimiter tag">}</span></span>\t<span class="token interpolation"><span class="token delimiter tag">#{</span>max_val<span class="token delimiter tag">}</span></span>"</span> <span class="token keyword">if</span> last_key<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>同样，程序在标准输入的行上进行迭代，但是这次我们在处理每个key group时必须存储一些状态。<br>在这种情况下，key是年份，并且我们存储最后看到的key和到目前为止看到的最高温度(value)。<br>MapReduce框架可确保key是有序的，因此我们知道，<strong>如果一个key与前一个key不同，我们已经到了一组新的<code>&lt;Key, Value&gt;</code>（在遍历过程中）</strong>。</p>
+<blockquote>
+<p>Note: 上面这段话用示意图来说明比较好。<br>假设在Ruby的map阶段，输出如下：</p>
+<pre class="line-numbers language-plain-text"><code class="language-plain-text">1950    +0000
+1949    +0111
+1950    +0022
+1950    -0011
+1949    +0078
+1948    +0128
+1948    +0108<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>那么在经过Hadoop流传给Ruby的reduce时，输入是已经被排序了的：</p>
+<pre class="line-numbers language-plain-text"><code class="language-plain-text">1948    +0128
+1948    +0108
+1949    +0111
+1949    +0078
+1950    +0000
+1950    +0022
+1950    -0011<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</blockquote>
+<p>与Java API相反，在Java API中为每个键组提供了迭代器，在Streaming中，您必须在程序中查找键组边界。<br>对于每一行，我们拉出键和值。<br>然后，如果我们刚刚完成了一组（last_key &amp;&amp; last_key！= key），则在开始处理新键的最高温度之前，我们就写出该键和该组的最高温度（由制表符分隔）。<br>如果我们还没有完成一组处理，那么只需更新当前键对应的最高温度即可。<br>这个程序的最后一行代码确保为输入中的最后一个键组输出处理完成的结果。</p>
+<p>现在我们可以使用Unix管道（相当于<a href="https://i.ibb.co/6DLL6w7/hdp-strm-diag.png" target="_blank" rel="noopener">图例2-1</a>中所示的Unix管道）模拟整个MapReduce管道：</p>
+<pre class="line-numbers language-ruby"><code class="language-ruby"><span class="token operator">%</span> cat input<span class="token operator">/</span>ncdc<span class="token operator">/</span>sample<span class="token punctuation">.</span>txt <span class="token operator">|</span> \
+  ch02<span class="token operator">-</span>mr<span class="token operator">-</span>intro<span class="token operator">/</span>src<span class="token operator">/</span>main<span class="token operator">/</span>ruby<span class="token operator">/</span>max_temperature_map<span class="token punctuation">.</span>rb <span class="token operator">|</span> \
+  sort <span class="token operator">|</span> ch02<span class="token operator">-</span>mr<span class="token operator">-</span>intro<span class="token operator">/</span>src<span class="token operator">/</span>main<span class="token operator">/</span>ruby<span class="token operator">/</span>max_temperature_reduce<span class="token punctuation">.</span>rb
+<span class="token number">1949</span>    <span class="token number">111</span>
+<span class="token number">1950</span>    <span class="token number">22</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>输出与Java程序的输出相同，因此下一步是使用Hadoop本身运行它。</p>
+<p>Hadoop命令行工具里并没有Streaming选项。取而代之的是，您可以通过jar选项来指定Streaming JAR文件来使用流功能。<br>Streaming程序的选项指定输入和输出路径以及map和reduce脚本。<br>它看起来像这样：</p>
+<pre class="line-numbers language-bash"><code class="language-bash">% hadoop jar <span class="token variable">$HADOOP_HOME</span>/share/hadoop/tools/lib/hadoop-streaming-*.jar \
+  -input input/ncdc/sample.txt \
+  -output output \
+  -mapper ch02-mr-intro/src/main/ruby/max_temperature_map.rb \
+  -reducer ch02-mr-intro/src/main/ruby/max_temperature_reduce.rb<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在集群上的大型数据集上运行时，我们应使用<code>-combiner</code>选项设置组合器：</p>
+<pre class="line-numbers language-bash"><code class="language-bash">% hadoop jar <span class="token variable">$HADOOP_HOME</span>/share/hadoop/tools/lib/hadoop-streaming-*.jar \
+  -files ch02-mr-intro/src/main/ruby/max_temperature_map.rb,\
+ch02-mr-intro/src/main/ruby/max_temperature_reduce.rb \
+  -input input/ncdc/all \
+  -output output \
+  -mapper ch02-mr-intro/src/main/ruby/max_temperature_map.rb \
+  -combiner ch02-mr-intro/src/main/ruby/max_temperature_reduce.rb \
+  -reducer ch02-mr-intro/src/main/ruby/max_temperature_reduce.rb<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>还请注意<code>-files</code>的使用，它会帮我们我们把本地脚本传送到集群上各个节点，以运行Streaming程序。</p>
+<h3 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h3><p>现在我们再来看一个Python版本的例子，因为我比较熟悉Python，所以看起来也比较亲切~</p>
+<blockquote>
+<p>Python社区有一个叫<a href="http://klbostee.github.io/dumbo/" target="_blank" rel="noopener">Dumbo</a>的第三方包，更加Pythonic以及更易于使用。</p>
+</blockquote>
+<p>map脚本在<strong>示例 2-9</strong>中，reduce脚本在<strong>示例 2-10中</strong>。</p>
+<p><strong><em>示例 2-9. Python实现的计算最高温的map函数</em></strong></p>
+<hr>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token comment" spellcheck="true">#!/usr/bin/env python</span>
+
+<span class="token keyword">import</span> re
+<span class="token keyword">import</span> sys
+
+<span class="token keyword">for</span> line <span class="token keyword">in</span> sys<span class="token punctuation">.</span>stdin<span class="token punctuation">:</span>
+  val <span class="token operator">=</span> line<span class="token punctuation">.</span>strip<span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">(</span>year<span class="token punctuation">,</span> temp<span class="token punctuation">,</span> q<span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token punctuation">(</span>val<span class="token punctuation">[</span><span class="token number">15</span><span class="token punctuation">:</span><span class="token number">19</span><span class="token punctuation">]</span><span class="token punctuation">,</span> val<span class="token punctuation">[</span><span class="token number">87</span><span class="token punctuation">:</span><span class="token number">92</span><span class="token punctuation">]</span><span class="token punctuation">,</span> val<span class="token punctuation">[</span><span class="token number">92</span><span class="token punctuation">:</span><span class="token number">93</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>temp <span class="token operator">!=</span> <span class="token string">"+9999"</span> <span class="token operator">and</span> re<span class="token punctuation">.</span>match<span class="token punctuation">(</span><span class="token string">"[01459]"</span><span class="token punctuation">,</span> q<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span> <span class="token string">"%s\t%s"</span> <span class="token operator">%</span> <span class="token punctuation">(</span>year<span class="token punctuation">,</span> temp<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong><em>示例 2-10。 Python实现的计算最高温的reduce函数</em></strong></p>
+<hr>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token comment" spellcheck="true">#!/usr/bin/env python</span>
+
+<span class="token keyword">import</span> sys
+
+<span class="token punctuation">(</span>last_key<span class="token punctuation">,</span> max_val<span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token punctuation">(</span>None<span class="token punctuation">,</span> <span class="token operator">-</span>sys<span class="token punctuation">.</span>maxint<span class="token punctuation">)</span>
+<span class="token keyword">for</span> line <span class="token keyword">in</span> sys<span class="token punctuation">.</span>stdin<span class="token punctuation">:</span>
+  <span class="token punctuation">(</span>key<span class="token punctuation">,</span> val<span class="token punctuation">)</span> <span class="token operator">=</span> line<span class="token punctuation">.</span>strip<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token string">"\t"</span><span class="token punctuation">)</span>
+  <span class="token keyword">if</span> last_key <span class="token operator">and</span> last_key <span class="token operator">!=</span> key<span class="token punctuation">:</span>
+    <span class="token keyword">print</span> <span class="token string">"%s\t%s"</span> <span class="token operator">%</span> <span class="token punctuation">(</span>last_key<span class="token punctuation">,</span> max_val<span class="token punctuation">)</span>
+    <span class="token punctuation">(</span>last_key<span class="token punctuation">,</span> max_val<span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token punctuation">(</span>key<span class="token punctuation">,</span> int<span class="token punctuation">(</span>val<span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token keyword">else</span><span class="token punctuation">:</span>
+    <span class="token punctuation">(</span>last_key<span class="token punctuation">,</span> max_val<span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token punctuation">(</span>key<span class="token punctuation">,</span> max<span class="token punctuation">(</span>max_val<span class="token punctuation">,</span> int<span class="token punctuation">(</span>val<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token keyword">if</span> last_key<span class="token punctuation">:</span>
+  <span class="token keyword">print</span> <span class="token string">"%s\t%s"</span> <span class="token operator">%</span> <span class="token punctuation">(</span>last_key<span class="token punctuation">,</span> max_val<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>我们可以像在Ruby中一样测试程序并运行作业。例如，运行测试：</p>
+<pre class="line-numbers language-bash"><code class="language-bash">% <span class="token function">cat</span> input/ncdc/sample.txt <span class="token operator">|</span> \
+  ch02-mr-intro/src/main/python/max_temperature_map.py <span class="token operator">|</span> \
+  <span class="token function">sort</span> <span class="token operator">|</span> ch02-mr-intro/src/main/python/max_temperature_reduce.py
+1949    111
+1950    22<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="学而思"><a href="#学而思" class="headerlink" title="学而思"></a>学而思</h2><h3 id="如何实现Java-MapReduce的WordCount"><a href="#如何实现Java-MapReduce的WordCount" class="headerlink" title="如何实现Java MapReduce的WordCount"></a>如何实现Java MapReduce的WordCount</h3><p>在上一篇记录MapReduce的编程模型的文章中，开头我记录了一个Python单机版本wordcount例子。<br>看完今天这篇文章的内容，我想您应该可以利用所学到的概念来推测出如果要用Java来实现WordCount的MapReduce程序，应该怎么写了。</p>
+<p>正所谓学而不思则罔，虽然我已经完全不记得Java的语法以及特性，不过我们IT从业者应该具备抽象地思维能力，所以，大胆地基于现有的知识才推论吧！</p>
+<p>首先我们应该想到，WordCount是要累计地计算出现的单词去重后，每个单词一共有多少个。<br>假设我们的原始数据是一个巨大的文本文件，并且是以<code>\n</code>分了行的。<br>那么map函数的输入应该是<code>&lt;Offset, LineText&gt;</code>，输出则是<code>&lt;Word, 1&gt;</code><br>，此处map函数只需要对LineText进行以下处理–用<code>空格</code>或者<code>\t</code>来分割LineText，每遇到一个Word就输出<code>&lt;Word, 1&gt;</code>，<br>所以有许多个数据块，每个数据块都会输出许多相同的<code>&lt;Word, 1&gt;</code>。</p>
+<p>在shuffle过程中，应该将map输出的<code>&lt;Word, 1&gt;</code>合并成<code>&lt;Word, [1,1,...]&gt;</code>。<br>所以交给reduce的是来自所有数据块产出的<code>&lt;Word, [1,1,...]&gt;</code>，且Word是唯一的。</p>
+<p>然后就交给reduce函数处理，reduce将来自map的<code>&lt;Word, [1,1,...]&gt;</code>处理，输出为<code>&lt;Word, Count&gt;</code>。</p>
+<p>我画个图来说明，会更加直观，照葫芦画瓢就行啦~</p>
+<p><img src="https://i.ibb.co/4ZYSpNt/java-mapreduce-wordcout.png" alt="Java实现WordCount的MapReduce程序示意图"></p>
+<h3 id="延申的思考"><a href="#延申的思考" class="headerlink" title="延申的思考"></a>延申的思考</h3><ol>
+<li><p>公有云上的Hadoop集群为什么使用对象存储？</p>
+<p>通过学习HDFS和MapReduce，我们知道了为了加快作业的处理速度，我们应该尽可能的将map任务调度到拥有所需数据块的节点上，<br>也就是说Hadoop的作业调度系统应该是有机架感知能力(Rack Awareness)的。<br>那么现在在公有云上搭建Hadoop集群时，我们的数据是否还存放在本地磁盘呢？显然不是的，现在的公有云Hadoop产品，默认的存储都倾向于使用对象存储，这就要消耗集群内的网络带宽。<br>在公有云内，是否使用对象存储服务的性价比已经远超于使用本地磁盘呢？<br>要知道现在我们创建云主机依然可以选择使用本地磁盘，而不使用默认的云磁盘。</p>
+</li>
+<li><p>更加复杂的编程实现</p>
+<p>为了加快作业的速度，我们是否可以在多个节点上同时对一个数据块的多个副本进行map任务？<br>比如<strong>block 0</strong>有3个副本，分别存放在3个节点上，对于<strong>block 0</strong>，节点1-3上执行的map任务分别从不同的偏移位置开始处理数据，等等的复杂一点的实现。<br>是否在MapReduce框架中已经存在对应的接口。</p>
+</li>
+</ol>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>MapReduce既是编程模型又是计算框架，尽管对于我们来说只需要实现map和reduce函数就能完成业务，但是前提是要对MapReduce编程框架的内部机制有清晰的概念。<br>总体来说，MapReduce最神奇的地方在于shuffle和sort，这是框架可以帮我们完成的。<br>反过来说，就是如何实现一个分布式的任务调度系统，并且要基于并行处理数据的编程模型来设计。</p>
+<p>本文主要参考：</p>
+<ul>
+<li><strong>极客时间专栏 - <a href="https://time.geekbang.org/column/intro/133" target="_blank" rel="noopener">李智慧 - 从0开始学大数据</a></strong></li>
+<li><strong><a href="https://learning.oreilly.com/library/view/hadoop-the-definitive/9781491901687/" target="_blank" rel="noopener">Hadoop: The Definitive Guide, 4th Edition - Chapter2 - MapReduce</a></strong></li>
+</ul>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://shouneng.website" rel="external nofollow noreferrer">少年G</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://shouneng.website/2020/10/15/mapreduce-computation-framework/">https://shouneng.website/2020/10/15/mapreduce-computation-framework/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="https://shouneng.website" target="_blank">少年G</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/Hadoop/">
+                                    <span class="chip bg-color">Hadoop</span>
+                                </a>
+                            
+                                <a href="/tags/MapReduce/">
+                                    <span class="chip bg-color">MapReduce</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">Buy me a coffe?</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: 'abe1f078df4c41c02917',
+        clientSecret: '5cca9a3110ba22e0f959ea3aaf7ff2eeebd4e3e3',
+        repo: 'aruruka.github.io',
+        owner: 'aruruka',
+        admin: "aruruka",
+        id: '2020-10-15T00-41-47',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2020/10/19/clouderamanager-setup-kerberos-missing-credentials/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="ClouderaManager Setup Kerberos Missing Credentials">
+                        
+                        <span class="card-title">ClouderaManager Setup Kerberos Missing Credentials</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            我在Linux服务器上安装了MIT Kerberos server，然后在Cloudera Manager上通过Web UI向导进行启用Kerberos的初始化。过程执行失败了，刷新CLoudera Manager的首页后发现许多Configuration Issues，提示说各个服务的Kerberos Credentials是missing的状态。
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-10-19
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/信息安全/" class="post-category">
+                                    信息安全
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Kerberos/">
+                        <span class="chip bg-color">Kerberos</span>
+                    </a>
+                    
+                    <a href="/tags/ClouderaManager/">
+                        <span class="chip bg-color">ClouderaManager</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2020/10/06/mapreduce-programming-model/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="MapReduce Programming Model">
+                        
+                        <span class="card-title">MapReduce Programming Model</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            MapReduce既是一个编程模型，又是一个计算框架。由于我们的数据是存放在分布式文件系统中，自然不能用传统的编程模型来完成任务了。
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-10-06
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/大数据/" class="post-category">
+                                    大数据
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Hadoop/">
+                        <span class="chip bg-color">Hadoop</span>
+                    </a>
+                    
+                    <a href="/tags/MapReduce/">
+                        <span class="chip bg-color">MapReduce</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 少年G的博客<br />'
+            + '文章作者: 少年G<br />'
+            + '文章链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="883064937"
+                   fixed='true'
+                   autoplay='false'
+                   theme:='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+
+    
+    <div class="container row center-align" style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2019</span>
+            <a href="https://shouneng.website" target="_blank">少年G</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2019";
+                    var startMonth = "08";
+                    var startDate = "22";
+                    var startHour = "0";
+                    var startMinute = "0";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/aruruka" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:keraymondyan69@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="https://www.facebook.com/aruruka" class="tooltipped" target="_blank" data-tooltip="关注我的Facebook: https://www.facebook.com/aruruka" data-position="top" data-delay="50">
+        <i class="fab fa-facebook-f"></i>
+    </a>
+
+
+
+    <a href="https://twitter.com/aruruka" class="tooltipped" target="_blank" data-tooltip="关注我的Twitter: https://twitter.com/aruruka" data-position="top" data-delay="50">
+        <i class="fab fa-twitter"></i>
+    </a>
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=273456339" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 273456339" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+    <a href="https://weibo.com/keraymondyan69" class="tooltipped" target="_blank" data-tooltip="关注我的微博: https://weibo.com/keraymondyan69" data-position="top" data-delay="50">
+        <i class="fab fa-weibo"></i>
+    </a>
+
+
+
+    <a href="https://www.zhihu.com/people/shouneng" class="tooltipped" target="_blank" data-tooltip="关注我的知乎: https://www.zhihu.com/people/shouneng" data-position="top" data-delay="50">
+        <i class="fab fa-zhihu1">知</i>
+    </a>
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-27145379-5"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+    gtag('config', 'UA-27145379-5');
+</script>
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

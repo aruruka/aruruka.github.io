@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <url>
+    <loc>https://shouneng.website/2020/10/26/yarn-architecture/</loc>
+    
+    <lastmod>2020-10-26T00:17:21.112Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://shouneng.website/2020/10/19/clouderamanager-setup-kerberos-missing-credentials/</loc>
+    
+    <lastmod>2020-10-19T04:26:17.308Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://shouneng.website/2020/10/15/mapreduce-computation-framework/</loc>
+    
+    <lastmod>2020-10-14T16:44:25.995Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://shouneng.website/2020/10/06/mapreduce-programming-model/</loc>
+    
+    <lastmod>2020-10-07T00:13:19.467Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://shouneng.website/2020/09/29/hdfs-architecture-and-explaination-of-design/</loc>
+    
+    <lastmod>2020-09-29T05:47:51.681Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://shouneng.website/about/index.html</loc>
+    
+    <lastmod>2020-09-28T03:14:27.591Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://shouneng.website/2020/06/09/shi-yong-guan-fang-cloudformation-mo-ban-bu-shu-eks/</loc>
+    
+    <lastmod>2020-07-17T06:50:47.415Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://shouneng.website/2020/04/08/quick-guide-to-deploying-and-using-traefik-2-0-on-kubernetes/</loc>
+    
+    <lastmod>2020-04-08T03:55:12.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://shouneng.website/2020/03/23/ceph-performance-testing/</loc>
+    
+    <lastmod>2020-03-23T11:09:44.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://shouneng.website/2020/03/23/change-rook-ceph-filestore/</loc>
+    
+    <lastmod>2020-03-23T10:52:51.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://shouneng.website/2020/03/18/about-rook-ceph/</loc>
+    
+    <lastmod>2020-03-18T16:10:35.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://shouneng.website/2020/01/19/calico-practicing-3-how-to-configure-accessing-calico-endpoint-from-outside-of-the-cluster/</loc>
+    
+    <lastmod>2020-01-19T11:33:04.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://shouneng.website/2020/01/19/calico-practicing-2-about-calico-networking-option/</loc>
+    
+    <lastmod>2020-01-19T10:16:03.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://shouneng.website/2020/01/19/calico-practicing-1-about-calico/</loc>
+    
+    <lastmod>2020-01-19T10:01:30.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://shouneng.website/2019/12/11/wei-fu-wu-cong-xu-ni-ji-zhuan-k8s-de-ji-lu-01/</loc>
+    
+    <lastmod>2020-01-14T10:57:59.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://shouneng.website/2019/12/31/how-to-setup-traefik-as-ingress-controller-to-expose-service-from-kubernetes/</loc>
+    
+    <lastmod>2019-12-31T03:48:33.215Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://shouneng.website/2019/10/21/guan-yu-docker-wen-jian-xi-tong/</loc>
+    
+    <lastmod>2019-10-21T10:34:56.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://shouneng.website/2019/10/21/dui-yu-kubernetes-k8s-ru-men-xu-yao-liao-jie-de-docker-ji-chu/</loc>
+    
+    <lastmod>2019-10-21T10:21:39.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://shouneng.website/2019/10/21/k8s-ban-ben-gui-hua-de-yi-yi/</loc>
+    
+    <lastmod>2019-10-21T09:29:55.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://shouneng.website/2019/10/16/aws-support-faq/</loc>
+    
+    <lastmod>2019-10-16T11:25:14.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://shouneng.website/2019/09/16/fen-xi-dockbix-de-dockerfile-tong-yong-de-duo-cheng-xu-jing-xiang-de-she-ji-si-lu/</loc>
+    
+    <lastmod>2019-10-15T03:06:54.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://shouneng.website/2019/09/11/zabbix-zi-dong-fa-xian-ji-yu-aws-python-api-boto-3-de-kai-fa-zhi-nan/</loc>
+    
+    <lastmod>2019-10-14T18:08:58.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://shouneng.website/2019/10/09/kubernetes-ying-yong-guan-li-gong-ju-cha-jian-helm-de-an-zhuang-yu-shi-yong/</loc>
+    
+    <lastmod>2019-10-09T07:17:20.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://shouneng.website/2019/09/20/ge-ren-yong-chang-yong-ming-ling-bi-ji/</loc>
+    
+    <lastmod>2019-10-09T01:42:04.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://shouneng.website/2019/09/25/shi-dao-ru-jin-yi-jing-bu-gan-wen-de-wang-luo-ji-chu-hu-lian-wang-ji-chu-wang-luo-tcp/</loc>
+    
+    <lastmod>2019-10-09T01:41:08.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://shouneng.website/2019/09/11/shi-yong-docker-bu-shu-zabbix-jian-kong-xi-tong-lai-jian-kong-zhu-ji-zhuang-tai/</loc>
+    
+    <lastmod>2019-09-17T08:58:19.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://shouneng.website/2019/09/17/centos7-install-docker-and-docker-compose/</loc>
+    
+    <lastmod>2019-09-17T07:17:37.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://shouneng.website/2019/09/09/li-jie-zabbix/</loc>
+    
+    <lastmod>2019-09-12T08:15:01.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://shouneng.website/2019/08/22/dear/</loc>
+    
+    <lastmod>2019-09-11T08:44:23.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://shouneng.website/2019/08/31/yi-kubernetes-ji-qun-zai-bei-disaster-recovery-de-zhong-ji-zhi-nan/</loc>
+    
+    <lastmod>2019-09-02T10:30:11.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://shouneng.website/2019/08/29/python-jiao-ben-zhong-dong-tai-jia-zai-mo-kuai-module/</loc>
+    
+    <lastmod>2019-08-29T06:33:51.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://shouneng.website/README.html</loc>
+    
+    <lastmod>2019-08-29T04:02:19.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://shouneng.website/404.html</loc>
+    
+    <lastmod>2019-08-28T03:38:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://shouneng.website/friends/index.html</loc>
+    
+    <lastmod>2019-08-28T03:38:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://shouneng.website/contact/index.html</loc>
+    
+    <lastmod>2019-08-28T03:38:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://shouneng.website/tags/index.html</loc>
+    
+    <lastmod>2019-08-28T03:38:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://shouneng.website/categories/index.html</loc>
+    
+    <lastmod>2019-08-28T03:37:36.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://shouneng.website/archives/index.html</loc>
+    
+    <lastmod>2019-08-28T03:37:27.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://shouneng.website/2019/08/23/zai-kubernetes-zhong-zheng-que-di-an-zhuang-calico/</loc>
+    
+    <lastmod>2019-08-28T03:37:19.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://shouneng.website/2019/08/23/tong-guo-ke-long-chuang-jian-k8s-jie-dian-ji-chu-huan-jing/</loc>
+    
+    <lastmod>2019-08-28T03:37:19.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://shouneng.website/baidu_verify_1ITbPZxBua.html</loc>
+    
+    <lastmod>2019-08-27T08:48:01.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://shouneng.website/google9ae98db50666b7f0.html</loc>
+    
+    <lastmod>2019-08-27T06:11:50.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://shouneng.website/2019/08/23/shi-yong-kubeadm-an-zhuang-k8s-ji-qun/</loc>
+    
+    <lastmod>2019-08-26T10:51:51.000Z</lastmod>
+    
+  </url>
+  
+</urlset>
